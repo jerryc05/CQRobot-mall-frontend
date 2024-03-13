@@ -1,30 +1,37 @@
-import type { Component } from 'solid-js'
 import { Route, Router } from '@solidjs/router'
-import { lazy } from 'solid-js'
+import { Index, createSignal, lazy } from 'solid-js'
 
 import Home from '@/pages/home'
+import { SupportedCurrencies, btnClass, currency, setCurrency } from '@/utils'
 
-const App: Component = () => {
+export function App() {
   return (
     <>
-      <nav class='bg-gray-200 text-gray-900 px-4'>
-        <ul class='flex items-center'>
-          <li class='py-2 px-4'>
-            <a href='/' class='no-underline hover:underline'>
-              Home
-            </a>
-          </li>
-          <li class='py-2 px-4'>
-            <a href='/about' class='no-underline hover:underline'>
-              About
-            </a>
-          </li>
-          <li class='py-2 px-4'>
-            <a href='/error' class='no-underline hover:underline'>
-              Error
-            </a>
-          </li>
-        </ul>
+      <nav class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
+        <div class='flex'>
+          <Index
+            each={[
+              { name: 'My Account', url: '/' },
+              { name: 'My Cart', url: '/' },
+              { name: `Checkout (${currency()})`, url: '/' },
+            ]}
+          >
+            {x => (
+              <a href={x().url} class='py-2 px-4 no-underline hover:underline'>
+                {x().name}
+              </a>
+            )}
+          </Index>
+        </div>
+        <div class='flex items-center gap-x-2'>
+          <a href='/register' class={`bg-gray-500 text-white ${btnClass}`}>
+            Register
+          </a>
+          <a href='/login' class={btnClass}>
+            Login
+          </a>
+          <Currency />
+        </div>
       </nav>
 
       <main>
@@ -37,4 +44,27 @@ const App: Component = () => {
   )
 }
 
-export default App
+function Currency() {
+  const itemClassList =
+    'w-24 h-10 flex justify-center items-center bg-gray-300 cursor-pointer'
+  return (
+    <div class='relative [&>div]:hover:flex'>
+      <div class={itemClassList}>{currency()}</div>
+      <div class='flex-col absolute top-full hidden'>
+        <Index each={Object.values(SupportedCurrencies)}>
+          {x => (
+            <div
+              classList={{ hidden: x() === currency() }}
+              class={itemClassList}
+              onclick={() => {
+                setCurrency(x())
+              }}
+            >
+              {x().toString()}
+            </div>
+          )}
+        </Index>
+      </div>
+    </div>
+  )
+}
