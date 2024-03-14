@@ -2,19 +2,27 @@ import { Route, Router } from '@solidjs/router'
 import { Index, createSignal, lazy } from 'solid-js'
 
 import Home from '@/pages/home'
-import { SupportedCurrencies, btnClass, currency, setCurrency } from '@/utils'
+import {
+  SupportedCurrencies,
+  type UrlWithName,
+  btnClass,
+  currency,
+  setCurrency,
+} from '@/utils'
 
 export function App() {
   return (
     <>
-      <nav class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
+      <header class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
         <div class='flex'>
           <Index
-            each={[
-              { name: 'My Account', url: '/' },
-              { name: 'My Cart', url: '/' },
-              { name: `Checkout (${currency()})`, url: '/' },
-            ]}
+            each={
+              [
+                { name: 'My Account', url: '/' },
+                { name: 'My Cart', url: '/' },
+                { name: `Checkout (${currency()})`, url: '/' },
+              ] as UrlWithName[]
+            }
           >
             {x => (
               <a href={x().url} class='py-2 px-4 no-underline hover:underline'>
@@ -32,7 +40,7 @@ export function App() {
           </a>
           <Currency />
         </div>
-      </nav>
+      </header>
 
       <main>
         <Router>

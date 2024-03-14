@@ -1,5 +1,10 @@
 import { createSignal } from 'solid-js'
 
+export type UrlWithName = {
+  name: string
+  url: string
+}
+
 export const btnClass =
   'py-[.4rem] px-3 border-[.1rem] border-gray-500 rounded-lg'
 

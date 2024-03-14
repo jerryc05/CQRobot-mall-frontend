@@ -8,6 +8,9 @@ dependencies:
   '@solidjs/router':
     specifier: ^0.13.0
     version: 0.13.0(solid-js@1.8.15)
+  lucide-solid:
+    specifier: ^0.357.0
+    version: 0.357.0(solid-js@1.8.15)
   solid-js:
     specifier: ^1.8.15
     version: 1.8.15
@@ -1349,6 +1352,14 @@ packages:
     dependencies:
       yallist: 3.1.1
     dev: true
+
+  /lucide-solid@0.357.0(solid-js@1.8.15):
+    resolution: {integrity: sha512-rFHERw86GDR3rzcEt7xZItNjPmFNhd83xPafryW2MYYrVnMyWoBI6RG9LVc623pq5Jcl4WL+BEtjmbVYSl2QvQ==}
+    peerDependencies:
+      solid-js: ^1.4.7
+    dependencies:
+      solid-js: 1.8.15
+    dev: false
 
   /merge-anything@5.1.7:
     resolution: {integrity: sha512-eRtbOb1N5iyH0tkQDAoQ4Ipsp/5qSR79Dzrz8hEPxRX10RWWR/iQXdoKmBSRCThY1Fh5EhISDtpSc93fpxUniQ==}
