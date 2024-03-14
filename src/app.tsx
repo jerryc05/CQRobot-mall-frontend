@@ -1,7 +1,7 @@
 import { Route, Router } from '@solidjs/router'
 import { Index, createSignal, lazy } from 'solid-js'
 
-import Home from '@/pages/home'
+import { Home } from '@/pages/home'
 import {
   SupportedCurrencies,
   type UrlWithName,

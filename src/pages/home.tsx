@@ -2,7 +2,7 @@ import type { UrlWithName } from '@/utils'
 import { Search } from 'lucide-solid'
 import { Index, createSignal } from 'solid-js'
 
-export default function Home() {
+export function Home() {
   return (
     <div class='mx-20 my-2'>
       <div class='flex justify-end items-center gap-x-3'>
