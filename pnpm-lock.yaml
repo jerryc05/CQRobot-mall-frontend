@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.13.0
     version: 0.13.0(solid-js@1.8.15)
   lucide-solid:
-    specifier: ^0.357.0
-    version: 0.357.0(solid-js@1.8.15)
+    specifier: ^0.358.0
+    version: 0.358.0(solid-js@1.8.15)
   solid-js:
     specifier: ^1.8.15
     version: 1.8.15
@@ -32,8 +32,8 @@ devDependencies:
     specifier: ^5.1.6
     version: 5.1.6
   vite-plugin-solid:
-    specifier: ^2.10.1
-    version: 2.10.1(solid-js@1.8.15)(vite@5.1.6)
+    specifier: ^2.10.2
+    version: 2.10.2(solid-js@1.8.15)(vite@5.1.6)
 
 packages:
 
@@ -967,8 +967,8 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
 
-  /binary-extensions@2.2.0:
-    resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
+  /binary-extensions@2.3.0:
+    resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
     dev: true
 
@@ -991,7 +991,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001597
-      electron-to-chromium: 1.4.703
+      electron-to-chromium: 1.4.708
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: true
@@ -1101,8 +1101,8 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /electron-to-chromium@1.4.703:
-    resolution: {integrity: sha512-094ZZC4nHXPKl/OwPinSMtLN9+hoFkdfQGKnvXbY+3WEAYtVDpz9UhJIViiY6Zb8agvqxiaJzNG9M+pRZWvSZw==}
+  /electron-to-chromium@1.4.708:
+    resolution: {integrity: sha512-iWgEEvREL4GTXXHKohhh33+6Y8XkPI5eHihDmm8zUk5Zo7HICEW+wI/j5kJ2tbuNUCXJ/sNXa03ajW635DiJXA==}
     dev: true
 
   /emoji-regex@8.0.0:
@@ -1258,7 +1258,7 @@ packages:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
     engines: {node: '>=8'}
     dependencies:
-      binary-extensions: 2.2.0
+      binary-extensions: 2.3.0
     dev: true
 
   /is-core-module@2.13.1:
@@ -1353,8 +1353,8 @@ packages:
       yallist: 3.1.1
     dev: true
 
-  /lucide-solid@0.357.0(solid-js@1.8.15):
-    resolution: {integrity: sha512-rFHERw86GDR3rzcEt7xZItNjPmFNhd83xPafryW2MYYrVnMyWoBI6RG9LVc623pq5Jcl4WL+BEtjmbVYSl2QvQ==}
+  /lucide-solid@0.358.0(solid-js@1.8.15):
+    resolution: {integrity: sha512-Yea08cmYQU1vADUAHEaEk6mhJGfgL5lq0BPwqTzAihEsreTuz1hzcnvtR88ocX0eJQ3BNJRoAAlKMm9ysGE3bQ==}
     peerDependencies:
       solid-js: ^1.4.7
     dependencies:
@@ -1818,8 +1818,8 @@ packages:
     resolution: {integrity: sha512-hGdgQozCsQJMyfK5urgFcWEqsSSrK63Awe0t/IMR0bZ0QMtnuaiHzThW81guu3qx9abLi99NEuiaN6P9gVYsNg==}
     dev: true
 
-  /vite-plugin-solid@2.10.1(solid-js@1.8.15)(vite@5.1.6):
-    resolution: {integrity: sha512-kfVdNLWaJqaJVL52U6iCCKNW/nXE7bS1VVGOWPGllOkJfcNILymVSY0LCBLSnyy0iYnRtrXpiHm14rMuzeC7CA==}
+  /vite-plugin-solid@2.10.2(solid-js@1.8.15)(vite@5.1.6):
+    resolution: {integrity: sha512-AOEtwMe2baBSXMXdo+BUwECC8IFHcKS6WQV/1NEd+Q7vHPap5fmIhLcAzr+DUJ04/KHx/1UBU0l1/GWP+rMAPQ==}
     peerDependencies:
       '@testing-library/jest-dom': ^5.16.6 || ^5.17.0 || ^6.*
       solid-js: ^1.7.2
