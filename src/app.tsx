@@ -48,6 +48,13 @@ export function App() {
           <Route path='**' component={lazy(() => import('./errors/404'))} />
         </Router>
       </main>
+
+      <button
+        type='button'
+        class='px-4 py-2 rounded-full fixed right-5 bottom-8 bg-blue-700'
+      >
+        Contact Us
+      </button>
     </>
   )
 }
@@ -61,7 +68,8 @@ function Currency() {
       <div class='flex-col absolute top-full hidden'>
         <Index each={Object.values(SupportedCurrencies)}>
           {x => (
-            <div
+            <button
+              type='button'
               classList={{ hidden: x() === currency() }}
               class={itemClassList}
               onclick={() => {
@@ -69,7 +77,7 @@ function Currency() {
               }}
             >
               {x().toString()}
-            </div>
+            </button>
           )}
         </Index>
       </div>

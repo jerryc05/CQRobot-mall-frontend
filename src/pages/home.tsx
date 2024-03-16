@@ -111,16 +111,27 @@ function BodyLeftPanel() {
 function BodyRightContent() {
   return (
     <>
-      <div class='flex-grow flex flex-wrap'>
-        <Index each={['1', '2', '3', '4', '5', '6']}>
-          {x => (
-            <img
-              class='basis-1/2 h-32 border-2 border-white bg-gray-300'
-              alt={x()}
-            />
-          )}
-        </Index>
-      </div>
+      <ImageCategories />
+      <NewCarousel />
     </>
   )
+}
+
+function ImageCategories() {
+  return (
+    <div class='flex-grow flex flex-wrap'>
+      <Index each={['1', '2', '3', '4', '5', '6']}>
+        {x => (
+          <img
+            class='basis-1/2 h-32 border-2 border-white bg-gray-300'
+            alt={x()}
+          />
+        )}
+      </Index>
+    </div>
+  )
+}
+
+function NewCarousel() {
+  return <></>
 }
