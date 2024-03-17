@@ -3,6 +3,7 @@ import { Search } from 'lucide-solid'
 import { Index, createSignal } from 'solid-js'
 import lightBulb from '/Simple_light_bulb_graphic.png'
 
+export const homeUrl = '/'
 export function Home() {
   return (
     <div class='mx-20 my-2'>

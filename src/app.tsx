@@ -1,7 +1,7 @@
 import { Route, Router } from '@solidjs/router'
-import { Index, createSignal, lazy } from 'solid-js'
+import { Index, lazy } from 'solid-js'
 
-import { Home } from '@/pages/home'
+import { Home, homeUrl } from '@/pages/home'
 import {
   SupportedCurrencies,
   type UrlWithName,
@@ -9,6 +9,7 @@ import {
   currency,
   setCurrency,
 } from '@/utils'
+import { registerUrl } from '@/pages/register'
 
 export function App() {
   return (
@@ -18,9 +19,9 @@ export function App() {
           <Index
             each={
               [
-                { name: 'My Account', url: '/' },
-                { name: 'My Cart', url: '/' },
-                { name: `Checkout (${currency()})`, url: '/' },
+                { name: 'My Account', url: homeUrl },
+                { name: 'My Cart', url: homeUrl },
+                { name: `Checkout (${currency()})`, url: homeUrl },
               ] as UrlWithName[]
             }
           >
@@ -32,7 +33,7 @@ export function App() {
           </Index>
         </div>
         <div class='flex items-center gap-x-2'>
-          <a href='/register' class={`bg-gray-500 text-white ${btnClass}`}>
+          <a href={registerUrl} class={`bg-gray-500 text-white ${btnClass}`}>
             Register
           </a>
           <a href='/login' class={btnClass}>
@@ -44,8 +45,12 @@ export function App() {
 
       <main>
         <Router>
-          <Route path='/' component={Home} />
-          <Route path='**' component={lazy(() => import('./errors/404'))} />
+          <Route path={homeUrl} component={Home} />
+          <Route
+            path={registerUrl}
+            component={lazy(() => import('@/pages/register'))}
+          />
+          <Route path='**' component={lazy(() => import('@/errors/404'))} />
         </Router>
       </main>
 
