@@ -10,7 +10,6 @@ export function Home() {
       <SearchAndCart />
       <NavBar />
       <Body />
-      <Footer />
     </div>
   )
 }
@@ -151,41 +150,5 @@ function NewCarousel() {
         </Index>
       </div>
     </>
-  )
-}
-
-function Footer() {
-  return (
-    <div class='h-60 py-20 flex justify-between [&_h3]:font-bold [&_h3]:text-xl'>
-      <div>
-        <h3>Info</h3>
-        <div>
-          <div>About Us</div>
-          <div>Contact Us</div>
-          <div>Distributors</div>
-        </div>
-      </div>
-
-      <div>
-        <h3>Help</h3>
-        <div>
-          <div>Payment</div>
-          <div>Shipping</div>
-          <div>Warranty & Returns</div>
-        </div>
-      </div>
-
-      <div>
-        <h3>Links</h3>
-        <div>
-          <div>Product Catgories</div>
-          <div>Advanced Search</div>
-        </div>
-      </div>
-
-      <div>
-        <h3>Be the first to know</h3>
-      </div>
-    </div>
   )
 }
