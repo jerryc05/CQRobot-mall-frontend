@@ -1,6 +1,7 @@
 import type { UrlWithName } from '@/utils'
 import { Search } from 'lucide-solid'
 import { Index, createSignal } from 'solid-js'
+import lightBulb from '/Simple_light_bulb_graphic.png'
 
 export function Home() {
   return (
@@ -8,6 +9,7 @@ export function Home() {
       <SearchAndCart />
       <NavBar />
       <Body />
+      <Footer />
     </div>
   )
 }
@@ -110,10 +112,10 @@ function BodyLeftPanel() {
 }
 function BodyRightContent() {
   return (
-    <>
+    <div class='flex-grow flex flex-col'>
       <ImageCategories />
       <NewCarousel />
-    </>
+    </div>
   )
 }
 
@@ -133,5 +135,56 @@ function ImageCategories() {
 }
 
 function NewCarousel() {
-  return <></>
+  return (
+    <>
+      <div class='text-4xl'>New</div>
+      <div class='flex-grow h-[30rem] flex flex-col flex-wrap overflow-y-auto'>
+        <Index each={['1', '2', '3', '4', '5', '6', '7', '8', '9']}>
+          {x => (
+            <div class='h-1/2 w-60 flex flex-col items-center border-2 border-white'>
+              <img class='min-h-0 object-contain' src={lightBulb} alt={x()} />
+              <div>$0.00-$0.00</div>
+              <div>Product name here ...</div>
+            </div>
+          )}
+        </Index>
+      </div>
+    </>
+  )
+}
+
+function Footer() {
+  return (
+    <div class='h-60 py-20 flex justify-between [&_h3]:font-bold [&_h3]:text-xl'>
+      <div>
+        <h3>Info</h3>
+        <div>
+          <div>About Us</div>
+          <div>Contact Us</div>
+          <div>Distributors</div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Help</h3>
+        <div>
+          <div>Payment</div>
+          <div>Shipping</div>
+          <div>Warranty & Returns</div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Links</h3>
+        <div>
+          <div>Product Catgories</div>
+          <div>Advanced Search</div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Be the first to know</h3>
+      </div>
+    </div>
+  )
 }

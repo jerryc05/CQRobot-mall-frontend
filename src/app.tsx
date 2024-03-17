@@ -51,7 +51,7 @@ export function App() {
 
       <button
         type='button'
-        class='px-4 py-2 rounded-full fixed right-5 bottom-8 bg-blue-700'
+        class='px-4 py-2 rounded-full fixed right-5 bottom-8 text-white bg-blue-700'
       >
         Contact Us
       </button>
