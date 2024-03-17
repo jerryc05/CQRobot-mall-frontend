@@ -162,9 +162,9 @@ function NavBar() {
 
 function Footer() {
   return (
-    <div class='h-60 py-20 flex justify-around [&_h3]:font-bold [&_h3]:text-xl'>
+    <div class='h-60 py-20 flex justify-around [&_b]:text-xl'>
       <div>
-        <h3>Info</h3>
+        <b>Info</b>
         <div>
           <div>About Us</div>
           <div>Contact Us</div>
@@ -173,7 +173,7 @@ function Footer() {
       </div>
 
       <div>
-        <h3>Help</h3>
+        <b>Help</b>
         <div>
           <div>Payment</div>
           <div>Shipping</div>
@@ -182,7 +182,7 @@ function Footer() {
       </div>
 
       <div>
-        <h3>Links</h3>
+        <b>Links</b>
         <div>
           <div>Product Catgories</div>
           <div>Advanced Search</div>
@@ -190,7 +190,7 @@ function Footer() {
       </div>
 
       <div>
-        <h3>Be the first to know</h3>
+        <b>Be the first to know</b>
       </div>
     </div>
   )
