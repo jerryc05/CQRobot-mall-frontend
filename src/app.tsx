@@ -2,7 +2,7 @@ import { Route, Router } from '@solidjs/router'
 import { Index, lazy } from 'solid-js'
 import { Search } from 'lucide-solid'
 
-import { Home, homeUrl } from '@/pages/home'
+import { Home } from '@/pages/home'
 import {
   SupportedCurrencies,
   type UrlWithName,
@@ -10,7 +10,8 @@ import {
   currency,
   setCurrency,
 } from '@/utils'
-import { registerUrl } from '@/pages/register'
+import { homeUrl, registerUrl } from '@/utils'
+
 
 export function App() {
   return (

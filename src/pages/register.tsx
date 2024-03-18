@@ -1,4 +1,3 @@
-export const registerUrl = '/register'
 export default function Register() {
   const itemHeight = 'h-12'
   const innerInputHeight = '[&_input:not([type=checkbox])]:h-12'

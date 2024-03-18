@@ -14,3 +14,12 @@ export enum SupportedCurrencies {
   EUR = 'EUR',
 }
 export const [currency, setCurrency] = createSignal(SupportedCurrencies.USD)
+
+//
+//
+//
+//
+//
+export const homeUrl = '/'
+
+export const registerUrl = '/register'
