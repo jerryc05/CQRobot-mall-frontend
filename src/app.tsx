@@ -14,12 +14,12 @@ import { registerUrl } from '@/pages/register'
 
 export function App() {
   return (
-    <>
+    <div class='min-h-dvh flex flex-col bg-gray-100'>
       <Header />
       <SearchAndCart />
       <NavBar />
 
-      <main>
+      <main class='flex-grow flex flex-col'>
         <Router>
           <Route path={homeUrl} component={Home} />
           <Route
@@ -34,11 +34,11 @@ export function App() {
 
       <button
         type='button'
-        class='px-4 py-2 rounded-full fixed right-5 bottom-8 text-white bg-blue-700'
+        class='px-6 py-3 rounded-full fixed right-5 bottom-8 text-sm text-white bg-blue-700'
       >
         Contact Us
       </button>
-    </>
+    </div>
   )
 }
 
