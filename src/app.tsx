@@ -41,6 +41,7 @@ export function App() {
     </>
   )
 }
+
 function Header() {
   return (
     <header class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
