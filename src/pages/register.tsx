@@ -7,7 +7,7 @@ export default function Register() {
     <div class='w-[35rem] my-auto self-center'>
       <div class='w-full my-7 font-semibold text-center text-4xl'>Register</div>
       <form
-        class={`p-10 rounded-xl bg-white flex flex-col gap-y-5 ${innerInputHeight} [&_input]:px-2 [&_input]:border-2 [&_input]:border-gray-400 [&_input]:rounded-lg`}
+        class={`p-10 rounded-xl bg-white flex flex-col gap-y-3 ${innerInputHeight} [&_input]:px-2 [&_input]:border-2 [&_input]:border-gray-400 [&_input]:rounded-lg`}
         onSubmit={e => {
           e.preventDefault()
           alert('todo!')
@@ -15,17 +15,22 @@ export default function Register() {
       >
         <label class={labelClass}>
           <div>First Name</div>
-          <input required type='text' />
+          <input required type='text' autocomplete='given-name' />
         </label>
 
         <label class={labelClass}>
           <div>Last Name</div>
-          <input required type='text' />
+          <input required type='text' autocomplete='family-name' />
+        </label>
+
+        <label class={labelClass}>
+          <div>Phone number</div>
+          <input required type='tel' autocomplete='tel' />
         </label>
 
         <label class={labelClass}>
           <div>Email</div>
-          <input required type='email' autocomplete='username' />
+          <input required type='email' autocomplete='email' />
         </label>
 
         <label class={labelClass}>
