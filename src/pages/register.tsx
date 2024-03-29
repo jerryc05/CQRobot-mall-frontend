@@ -15,7 +15,7 @@ export default function Register() {
     'flex flex-col [&>div]:my-1 [&>div]:text-sm [&>div]:font-semibold'
 
   return (
-    <div class='w-[35rem] my-auto self-center'>
+    <div class='w-[25rem] my-auto self-center'>
       <div class='w-full my-7 font-semibold text-center text-4xl'>Register</div>
       <form
         class={`p-10 rounded-xl bg-white flex flex-col gap-y-3 ${innerInputHeight} [&_input]:px-2 [&_input]:border-2 [&_input]:border-gray-400 [&_input]:rounded-lg`}
