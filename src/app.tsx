@@ -9,6 +9,7 @@ import {
   btnClass,
   currency,
   setCurrency,
+  loginUrl,
 } from '@/utils'
 import { homeUrl, registerUrl } from '@/utils'
 
@@ -26,6 +27,10 @@ export function App() {
           <Route
             path={registerUrl}
             component={lazy(() => import('@/pages/register'))}
+          />
+          <Route
+            path={loginUrl}
+            component={lazy(() => import('@/pages/login'))}
           />
           <Route path='**' component={lazy(() => import('@/errors/404'))} />
         </Router>

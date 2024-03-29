@@ -1,5 +1,6 @@
 import { users_register } from '@/api'
 import { createSignal } from 'solid-js'
+import { submitBtnHeight, labelClass, formClass } from './util_login_register'
 
 export default function Register() {
   const [firstName_, setFirstName] = createSignal<string>()
@@ -9,16 +10,11 @@ export default function Register() {
   const [password_, setPassword] = createSignal<string>()
   const [termsAccepted_, setTermsAccepted] = createSignal(false)
 
-  const itemHeight = 'h-12'
-  const innerInputHeight = '[&_input:not([type=checkbox])]:h-12'
-  const labelClass =
-    'flex flex-col [&>div]:my-1 [&>div]:text-sm [&>div]:font-semibold'
-
   return (
     <div class='w-[25rem] my-auto self-center'>
       <div class='w-full my-7 font-semibold text-center text-4xl'>Register</div>
       <form
-        class={`p-10 rounded-xl bg-white flex flex-col gap-y-3 ${innerInputHeight} [&_input]:px-2 [&_input]:border-2 [&_input]:border-gray-400 [&_input]:rounded-lg`}
+        class={formClass}
         onSubmit={e => {
           e.preventDefault()
           const email = email_()
@@ -50,7 +46,7 @@ export default function Register() {
             required
             type='text'
             autocomplete='given-name'
-            onChange={e => {
+            onInput={e => {
               setFirstName(e.target.value)
             }}
           />
@@ -62,7 +58,7 @@ export default function Register() {
             required
             type='text'
             autocomplete='family-name'
-            onChange={e => {
+            onInput={e => {
               setLastName(e.target.value)
             }}
           />
@@ -74,7 +70,7 @@ export default function Register() {
             required
             type='tel'
             autocomplete='tel'
-            onChange={e => {
+            onInput={e => {
               setPhoneNumber(e.target.value)
             }}
           />
@@ -86,7 +82,7 @@ export default function Register() {
             required
             type='email'
             autocomplete='email'
-            onChange={e => {
+            onInput={e => {
               setEmail(e.target.value)
             }}
           />
@@ -98,7 +94,7 @@ export default function Register() {
             required
             type='password'
             autocomplete='new-password'
-            onChange={e => {
+            onInput={e => {
               setPassword(e.target.value)
             }}
           />
@@ -108,7 +104,7 @@ export default function Register() {
           <input
             type='checkbox'
             required
-            onChange={e => {
+            onInput={e => {
               setTermsAccepted(e.target.checked)
             }}
           />
@@ -128,7 +124,7 @@ export default function Register() {
             phoneNumber_() == null ||
             !termsAccepted_()
           }
-          class={`${itemHeight} w-full px-4 py-2 rounded-lg bg-blue-700 disabled:bg-gray-400 text-white`}
+          class={`${submitBtnHeight} w-full px-4 py-2 rounded-lg bg-blue-700 disabled:bg-gray-400 text-white`}
         >
           Submit
         </button>
