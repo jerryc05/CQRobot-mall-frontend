@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js'
 import type { users_me } from '@/api'
+import { makePersisted } from '@solid-primitives/storage'
 
 export type UrlWithName = {
   name: string
@@ -14,7 +15,12 @@ export enum SupportedCurrencies {
   USD = 'USD',
   EUR = 'EUR',
 }
-export const [currency, setCurrency] = createSignal(SupportedCurrencies.USD)
+export const [currency, setCurrency] = makePersisted(
+  createSignal(SupportedCurrencies.USD),
+  {
+    name: 'currency',
+  }
+)
 
 //
 //
@@ -32,9 +38,19 @@ type RefreshTok = {
   refresh_expires_in: number
 }
 
-export const [token, setToken] = createSignal<AccTok & RefreshTok>()
+export const [token, setToken] = makePersisted(
+  createSignal<AccTok & RefreshTok>(),
+  {
+    name: 'token',
+  }
+)
 
-export const [me, setMe] = createSignal<Awaited<ReturnType<typeof users_me>>>()
+export const [me, setMe] = makePersisted(
+  createSignal<Awaited<ReturnType<typeof users_me>>>(),
+  {
+    name: 'me',
+  }
+)
 
 //
 //

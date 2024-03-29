@@ -28,8 +28,11 @@ export async function users_me(canRefresh = true) {
       }>('/api/users/me')
       .then(x => x.data)
   } catch (err) {
-    if (canRefresh) await refreshOnErr(err)
-    return await users_me(false)
+    if (canRefresh) {
+      await refreshOnErr(err)
+      return await users_me(false)
+    }
+    return null
   }
 }
 
