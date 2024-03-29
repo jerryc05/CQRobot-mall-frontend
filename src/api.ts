@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { setRefreshTok } from './contant'
 
 export const users_register = (body: {
   email: string
@@ -8,19 +9,21 @@ export const users_register = (body: {
   phone_number: string
 }) => axios.post('/api/users/register', body)
 
+type AccTok = {
+  access_token: string
+  token_type: 'bearer'
+  expires_in: number
+}
+type RefreshTok = {
+  refresh_token: string
+  refresh_expires_in: number
+}
+
 export const users_login = (body: { email: string; password: string }) =>
-  axios
-    .post<{
-      access_token: string
-      refresh_token: string
-      token_type: 'bearer'
-      expires_in: number
-      refresh_expires_in: number
-    }>('/api/users/login', body)
-    .then(x => {
-      axios.defaults.headers.common.Authorization = `${x.data.token_type} ${x.data.access_token}`
-      return x.data
-    })
+  axios.post<AccTok & RefreshTok>('/api/users/login', body).then(x => {
+    handleToken(x.data)
+    return x.data
+  })
 
 export const users_me = () =>
   axios
@@ -37,12 +40,13 @@ export const users_logout = (refresh_token: string) =>
 
 export const users_refresh_token = (refresh_token: string) =>
   axios
-    .post<{
-      access_token: string
-      token_type: 'bearer'
-      expires_in: number
-    }>('/api/users/refresh_token', { refresh_token })
+    .post<AccTok & RefreshTok>('/api/users/refresh_token', { refresh_token })
     .then(x => {
-      axios.defaults.headers.common.Authorization = `${x.data.token_type} ${x.data.access_token}`
+      handleToken(x.data)
       return x.data
     })
+
+function handleToken(tokens: Awaited<ReturnType<typeof users_login>>) {
+  axios.defaults.headers.common.Authorization = `${tokens.token_type} ${tokens.access_token}`
+  setRefreshTok(tokens.refresh_token)
+}
