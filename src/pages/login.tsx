@@ -56,6 +56,7 @@ export default function Register() {
           type='submit'
           disabled={email_() == null || password_() == null}
           class={`${submitBtnHeight} w-full px-4 py-2 rounded-lg bg-blue-700 disabled:bg-gray-400 text-white`}
+          // todo: spin
         >
           Login
         </button>

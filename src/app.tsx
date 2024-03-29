@@ -1,5 +1,5 @@
 import { Route, Router } from '@solidjs/router'
-import { Index, lazy } from 'solid-js'
+import { Index, Show, lazy, onMount, untrack } from 'solid-js'
 import { Search } from 'lucide-solid'
 
 import { Home } from '@/pages/home'
@@ -10,9 +10,11 @@ import {
   currency,
   setCurrency,
   loginUrl,
+  me,
+  setMe,
 } from '@/utils'
 import { homeUrl, registerUrl } from '@/utils'
-
+import { users_me } from './api'
 
 export function App() {
   return (
@@ -49,6 +51,16 @@ export function App() {
 }
 
 function Header() {
+  onMount(() => {
+    untrack(() => {
+      if (me() == null) {
+        // todo spin
+        users_me().then(x => {
+          setMe(x)
+        })
+      }
+    })
+  })
   return (
     <header class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
       <div class='flex'>
@@ -69,12 +81,24 @@ function Header() {
         </Index>
       </div>
       <div class='flex items-center gap-x-2'>
-        <a href={registerUrl} class={`bg-gray-500 text-white ${btnClass}`}>
-          Register
-        </a>
-        <a href='/login' class={btnClass}>
-          Login
-        </a>
+        <Show
+          when={me() != null}
+          fallback={
+            <>
+              <a
+                href={registerUrl}
+                class={`bg-gray-500 text-white ${btnClass}`}
+              >
+                Register
+              </a>
+              <a href='/login' class={btnClass}>
+                Login
+              </a>
+            </>
+          }
+        >
+          <>您好，{me()?.first_name}！</>
+        </Show>
         <Currency />
       </div>
     </header>
