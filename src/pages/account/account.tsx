@@ -7,12 +7,12 @@ export default () => {
   const navigate = useNavigate()
 
   onMount(() => {
-    if (me() === null) navigate(loginUrl)
+    if (me.error) navigate(loginUrl)
   })
 
   return (
     <Show
-      when={me() != null}
+      when={!me.loading && !me.error}
       fallback={
         <div class='flex-grow flex flex-col justify-center items-center'>
           <Loader2 size='40' class='animate-spin' />

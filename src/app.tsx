@@ -11,7 +11,6 @@ import {
   setCurrency,
   loginUrl,
   me,
-  setMe,
   accountUrl,
 } from '@/utils'
 import { homeUrl, registerUrl } from '@/utils'
@@ -56,16 +55,6 @@ export function App() {
 }
 
 function Header() {
-  onMount(() => {
-    untrack(() => {
-      if (me() == null) {
-        // todo spin
-        users_me().then(x => {
-          setMe(x)
-        })
-      }
-    })
-  })
   return (
     <header class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
       <div class='flex'>
@@ -87,7 +76,7 @@ function Header() {
       </div>
       <div class='flex items-center gap-x-2'>
         <Show
-          when={me() != null}
+          when={!me.loading && !me.error}
           fallback={
             <>
               <a

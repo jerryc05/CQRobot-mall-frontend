@@ -1,7 +1,7 @@
 import { users_login, users_me } from '@/api'
 import { createSignal } from 'solid-js'
 import { submitBtnHeight, labelClass, formClass } from './util_login_register'
-import { setMe } from '@/utils'
+import { refetchMe } from '@/utils'
 
 export default function Register() {
   const [email_, setEmail] = createSignal<string>()
@@ -20,11 +20,7 @@ export default function Register() {
             users_login({
               email: email,
               password: password,
-            }).then(() => {
-              users_me().then(x => {
-                setMe(x)
-              })
-            })
+            }).then(refetchMe)
           }
         }}
       >

@@ -1,5 +1,5 @@
-import { createSignal } from 'solid-js'
-import type { users_me } from '@/api'
+import { createResource, createSignal } from 'solid-js'
+import { users_me } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
 
 export type UrlWithName = {
@@ -45,7 +45,11 @@ export const [token, setToken] = makePersisted(
   }
 )
 
-export const [me, setMe] = createSignal<Awaited<ReturnType<typeof users_me>>>()
+export const [me, { mutate: refetchMe }] = createResource<
+  Awaited<ReturnType<typeof users_me>>
+>((/* source, { value, refetching } */) => users_me(), {
+  name: 'resource:me',
+})
 
 //
 //

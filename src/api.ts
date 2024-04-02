@@ -17,7 +17,7 @@ export const users_login = (body: { email: string; password: string }) =>
       return x.data
     })
 
-export async function users_me(canRefresh = true) {
+export async function users_me(refreshTokIfFailed = true) {
   try {
     return await axios
       .get<{
@@ -28,11 +28,10 @@ export async function users_me(canRefresh = true) {
       }>('/api/users/me')
       .then(x => x.data)
   } catch (err) {
-    if (canRefresh) {
-      await refreshOnErr(err)
+    if (refreshTokIfFailed && (await refreshOnErr(err)))
       return await users_me(false)
-    }
-    return null
+
+    throw Error('Not logged in')
   }
 }
 
@@ -60,5 +59,7 @@ function handleToken(tokens: Awaited<ReturnType<typeof users_login>>) {
 async function refreshOnErr(err: any) {
   if (err instanceof AxiosError && err.response?.status === 401) {
     await users_refresh_token(token()?.refresh_token ?? '')
+    return true
   }
+  return false
 }
