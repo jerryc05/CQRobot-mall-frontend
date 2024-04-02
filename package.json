@@ -4,7 +4,8 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+		"serve": "vite preview",
+		"lintfix": "biome lint . --apply-unsafe"
   },
   "dependencies": {
     "@solid-primitives/storage": "^3.0.0",

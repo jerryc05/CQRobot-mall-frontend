@@ -1,6 +1,6 @@
 import { users_register } from '@/api'
 import { createSignal } from 'solid-js'
-import { submitBtnHeight, labelClass, formClass } from './util_login_register'
+import { formClass, labelClass, submitBtnHeight } from './util_login_register'
 
 export default function Register() {
   const [firstName_, setFirstName] = createSignal<string>()

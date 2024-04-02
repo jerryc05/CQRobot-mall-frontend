@@ -1,6 +1,6 @@
-import { createResource, createSignal } from 'solid-js'
 import { users_me } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
+import { createResource, createSignal } from 'solid-js'
 
 export type UrlWithName = {
   name: string

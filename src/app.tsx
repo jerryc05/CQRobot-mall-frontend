@@ -1,20 +1,19 @@
 import { Route, Router } from '@solidjs/router'
-import { Index, Show, lazy, onMount, untrack } from 'solid-js'
 import { Search } from 'lucide-solid'
+import { Index, Show, lazy } from 'solid-js'
 
 import { Home } from '@/pages/home'
 import {
   SupportedCurrencies,
   type UrlWithName,
+  accountUrl,
   btnClass,
   currency,
-  setCurrency,
   loginUrl,
   me,
-  accountUrl,
+  setCurrency,
 } from '@/utils'
 import { homeUrl, registerUrl } from '@/utils'
-import { users_me } from './api'
 
 export function App() {
   return (
@@ -187,7 +186,7 @@ function NavBar() {
 
 function Footer() {
   return (
-    <div class='h-60 py-20 flex justify-around [&_b]:text-xl'>
+    <div class='pt-5 pb-10 flex justify-around [&_b]:text-xl'>
       <div>
         <b>Info</b>
         <div>

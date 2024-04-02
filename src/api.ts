@@ -1,5 +1,5 @@
-import axios, { AxiosError } from 'axios'
 import { setToken, token } from '@/utils'
+import axios, { AxiosError } from 'axios'
 
 export const users_register = (body: {
   email: string

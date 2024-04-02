@@ -1,7 +1,7 @@
-import { users_login, users_me } from '@/api'
-import { createSignal } from 'solid-js'
-import { submitBtnHeight, labelClass, formClass } from './util_login_register'
+import { users_login } from '@/api'
 import { refetchMe } from '@/utils'
+import { createSignal } from 'solid-js'
+import { formClass, labelClass, submitBtnHeight } from './util_login_register'
 
 export default function Register() {
   const [email_, setEmail] = createSignal<string>()
