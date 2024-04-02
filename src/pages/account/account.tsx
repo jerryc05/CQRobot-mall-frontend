@@ -1,12 +1,12 @@
 import { loginUrl, me } from '@/utils'
 import { useNavigate } from '@solidjs/router'
 import { Loader2 } from 'lucide-solid'
-import { Show, onMount } from 'solid-js'
+import { Show, createEffect } from 'solid-js'
 
-export default () => {
+export default function Account() {
   const navigate = useNavigate()
 
-  onMount(() => {
+  createEffect(() => {
     if (me.error) navigate(loginUrl)
   })
 
