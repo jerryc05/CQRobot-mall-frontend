@@ -45,12 +45,7 @@ export const [token, setToken] = makePersisted(
   }
 )
 
-export const [me, setMe] = makePersisted(
-  createSignal<Awaited<ReturnType<typeof users_me>>>(),
-  {
-    name: 'me',
-  }
-)
+export const [me, setMe] = createSignal<Awaited<ReturnType<typeof users_me>>>()
 
 //
 //
