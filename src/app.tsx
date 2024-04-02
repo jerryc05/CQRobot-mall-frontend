@@ -12,6 +12,7 @@ import {
   loginUrl,
   me,
   setMe,
+  accountUrl,
 } from '@/utils'
 import { homeUrl, registerUrl } from '@/utils'
 import { users_me } from './api'
@@ -33,6 +34,10 @@ export function App() {
           <Route
             path={loginUrl}
             component={lazy(() => import('@/pages/login'))}
+          />
+          <Route
+            path={accountUrl}
+            component={lazy(() => import('@/pages/account/account'))}
           />
           <Route path='**' component={lazy(() => import('@/errors/404'))} />
         </Router>
