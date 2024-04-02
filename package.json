@@ -4,22 +4,22 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-		"serve": "vite preview",
-		"lintfix": "biome lint . --apply-unsafe"
+    "serve": "vite preview",
+    "lintfix": "biome lint . --apply-unsafe"
   },
   "dependencies": {
-    "@solid-primitives/storage": "^3.0.0",
-    "@solidjs/router": "^0.13.0",
+    "@solid-primitives/storage": "^3.1.0",
+    "@solidjs/router": "^0.13.1",
     "axios": "^1.6.8",
-    "lucide-solid": "^0.358.0",
-    "solid-js": "^1.8.15"
+    "lucide-solid": "^0.364.0",
+    "solid-js": "^1.8.16"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.18",
-    "postcss": "^8.4.35",
-    "solid-devtools": "^0.29.3",
-    "tailwindcss": "^3.4.1",
-    "vite": "^5.1.6",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "vite": "^5.2.7",
+    "vite-plugin-singlefile": "^2.0.1",
     "vite-plugin-solid": "^2.10.2"
   },
   "type": "module"
