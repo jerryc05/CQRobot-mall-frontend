@@ -3,7 +3,7 @@ import { refetchMe } from '@/utils'
 import { createSignal } from 'solid-js'
 import { formClass, labelClass, submitBtnHeight } from './util_login_register'
 
-export default function Register() {
+export default function Login() {
   const [email_, setEmail] = createSignal<string>()
   const [password_, setPassword] = createSignal<string>()
 

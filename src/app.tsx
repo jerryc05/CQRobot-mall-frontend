@@ -1,19 +1,24 @@
 import { Route, Router } from '@solidjs/router'
 import { Search } from 'lucide-solid'
-import { Index, Show, lazy } from 'solid-js'
+import { Index, Show } from 'solid-js'
 
-import { Home } from '@/pages/home'
+import Page404 from '@/errors/404'
+import Account from '@/pages/account/account'
+import Home from '@/pages/home'
+import Login from '@/pages/login'
+import Register from '@/pages/register'
 import {
   SupportedCurrencies,
   type UrlWithName,
   accountUrl,
   btnClass,
   currency,
+  homeUrl,
   loginUrl,
   me,
+  registerUrl,
   setCurrency,
 } from '@/utils'
-import { homeUrl, registerUrl } from '@/utils'
 
 export function App() {
   return (
@@ -25,19 +30,10 @@ export function App() {
       <main class='flex-grow flex flex-col'>
         <Router>
           <Route path={homeUrl} component={Home} />
-          <Route
-            path={registerUrl}
-            component={lazy(() => import('@/pages/register'))}
-          />
-          <Route
-            path={loginUrl}
-            component={lazy(() => import('@/pages/login'))}
-          />
-          <Route
-            path={accountUrl}
-            component={lazy(() => import('@/pages/account/account'))}
-          />
-          <Route path='**' component={lazy(() => import('@/errors/404'))} />
+          <Route path={registerUrl} component={Register} />
+          <Route path={loginUrl} component={Login} />
+          <Route path={accountUrl} component={Account} />
+          <Route path='**' component={Page404} />
         </Router>
       </main>
 

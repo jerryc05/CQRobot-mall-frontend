@@ -1,7 +1,7 @@
 import { Index } from 'solid-js'
 import lightBulb from '/Simple_light_bulb_graphic.png'
 
-export function Home() {
+export default function Home() {
   return (
     <div class='mx-20 my-2'>
       <img class='w-full h-56 my-1 bg-gray-200' alt='carousel' />
