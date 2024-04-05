@@ -47,19 +47,14 @@ export const [loginCred, setLoginCred] = createSignal<
   password: '',
 })
 
-export const [token, { mutate: mutateToken, refetch: refetchToken }] =
-  createResource(
-    // <
-    // AccTok & RefreshTok
-    // ,  Parameters<typeof users_login>[0]
-    // >
-    // loginCred,
-    (/* source, { value, refetching } */) => users_login(loginCred())
-    // , {
-    //   name: 'resource:token',
-    //   storage: makePersisted(createSignal()),
-    // }
-  )
+export const [token, { mutate: mutateToken, refetch: refetchToken }] = createResource(
+  (/* source, { value, refetching } */) => users_login(loginCred()),
+  {
+    name: 'resource:token',
+    storage: () =>
+      makePersisted(createSignal<Awaited<ReturnType<typeof users_login>>>()),
+  }
+)
 
 //
 //
