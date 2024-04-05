@@ -1,4 +1,4 @@
-import { setToken, token } from '@/utils'
+import { type AllTok, mutateToken, token } from '@/utils'
 import axios, { AxiosError } from 'axios'
 
 export const users_register = (body: {
@@ -10,12 +10,10 @@ export const users_register = (body: {
 }) => axios.post('/api/users/register', body)
 
 export const users_login = (body: { email: string; password: string }) =>
-  axios
-    .post<NonNullable<ReturnType<typeof token>>>('/api/users/login', body)
-    .then(x => {
-      handleToken(x.data)
-      return x.data
-    })
+  axios.post<AllTok>('/api/users/login', body).then(x => {
+    handleToken(x.data)
+    return x.data
+  })
 
 export async function users_me(refreshTokIfFailed = true) {
   try {
@@ -38,12 +36,12 @@ export async function users_me(refreshTokIfFailed = true) {
 export const users_logout = (refresh_token: string) =>
   axios.post('/api/users/logout').then(() => {
     axios.defaults.headers.common.Authorization = undefined
-    setToken(undefined)
+    mutateToken(undefined)
   })
 
 export const users_refresh_token = (refresh_token: string) =>
   axios
-    .post<NonNullable<ReturnType<typeof token>>>('/api/users/refresh_token', {
+    .post<AllTok>('/api/users/refresh_token', {
       refresh_token,
     })
     .then(x => {
@@ -53,7 +51,7 @@ export const users_refresh_token = (refresh_token: string) =>
 
 function handleToken(tokens: Awaited<ReturnType<typeof users_login>>) {
   axios.defaults.headers.common.Authorization = `${tokens.token_type} ${tokens.access_token}`
-  setToken(tokens)
+  mutateToken(tokens)
 }
 
 async function refreshOnErr(err: any) {

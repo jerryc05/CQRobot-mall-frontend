@@ -1,4 +1,4 @@
-import { users_me } from '@/api'
+import { users_login, users_me } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
 import { createResource, createSignal } from 'solid-js'
 
@@ -38,14 +38,34 @@ type RefreshTok = {
   refresh_expires_in: number
 }
 
-export const [token, setToken] = makePersisted(
-  createSignal<AccTok & RefreshTok>(),
-  {
-    name: 'token',
-  }
-)
+export type AllTok = AccTok & RefreshTok
 
-export const [me, { mutate: refetchMe }] = createResource<
+export const [loginCred, setLoginCred] = createSignal<
+  Parameters<typeof users_login>[0]
+>({
+  email: '',
+  password: '',
+})
+
+export const [token, { mutate: mutateToken, refetch: refetchToken }] =
+  createResource(
+    // <
+    // AccTok & RefreshTok
+    // ,  Parameters<typeof users_login>[0]
+    // >
+    // loginCred,
+    (/* source, { value, refetching } */) => users_login(loginCred())
+    // , {
+    //   name: 'resource:token',
+    //   storage: makePersisted(createSignal()),
+    // }
+  )
+
+//
+//
+//
+
+export const [me, { refetch: refetchMe }] = createResource<
   Awaited<ReturnType<typeof users_me>>
 >((/* source, { value, refetching } */) => users_me(), {
   name: 'resource:me',

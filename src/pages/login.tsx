@@ -1,12 +1,8 @@
-import { users_login } from '@/api'
-import { refetchMe } from '@/utils'
-import { createSignal } from 'solid-js'
+import { loginCred, refetchToken, setLoginCred, token } from '@/utils'
+import { Loader2 } from 'lucide-solid'
 import { formClass, labelClass, submitBtnHeight } from './util_login_register'
 
 export default function Login() {
-  const [email_, setEmail] = createSignal<string>()
-  const [password_, setPassword] = createSignal<string>()
-
   return (
     <div class='w-[25rem] my-auto self-center'>
       <div class='w-full my-7 font-semibold text-center text-4xl'>Login</div>
@@ -14,13 +10,8 @@ export default function Login() {
         class={formClass}
         onSubmit={e => {
           e.preventDefault()
-          const email = email_()
-          const password = password_()
-          if (email != null && password != null) {
-            users_login({
-              email: email,
-              password: password,
-            }).then(refetchMe)
+          if (loginCred().email && loginCred().password) {
+            refetchToken()
           }
         }}
       >
@@ -31,7 +22,7 @@ export default function Login() {
             type='email'
             autocomplete='email'
             onInput={e => {
-              setEmail(e.target.value)
+              setLoginCred(x => ({ ...x, email: e.target.value }))
             }}
           />
         </label>
@@ -43,18 +34,17 @@ export default function Login() {
             type='password'
             autocomplete='new-password'
             onInput={e => {
-              setPassword(e.target.value)
+              setLoginCred(x => ({ ...x, password: e.target.value }))
             }}
           />
         </label>
 
         <button
           type='submit'
-          disabled={email_() == null || password_() == null}
+          disabled={!loginCred().email || !loginCred().password}
           class={`${submitBtnHeight} w-full px-4 py-2 rounded-lg bg-blue-700 disabled:bg-gray-400 text-white`}
-          // todo: spin
         >
-          Login
+          {token.loading ? <Loader2 class='w-full animate-spin' /> : 'Login'}
         </button>
       </form>
     </div>
