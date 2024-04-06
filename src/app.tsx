@@ -72,9 +72,7 @@ function Header() {
       </div>
       <div class='h-10 flex items-center gap-x-2'>
         <Show
-          when={
-            1 //  !me.loading && !me.error
-          }
+          when={!me.loading && !me.error}
           fallback={
             <>
               <a
