@@ -1,4 +1,4 @@
-import { type AllTok, mutateToken, token } from '@/utils'
+import { type LoginTok, mutateToken } from '@/utils'
 import axios, { AxiosError } from 'axios'
 
 export const users_register = (body: {
@@ -10,8 +10,8 @@ export const users_register = (body: {
 }) => axios.post('/api/users/register', body)
 
 export const users_login = (body: { email: string; password: string }) =>
-  axios.post<AllTok>('/api/users/login', body).then(x => {
-    handleToken(x.data)
+  axios.post<LoginTok>('/api/users/login', body).then(x => {
+    mutateToken(x.data)
     return x.data
   })
 
@@ -39,25 +39,22 @@ export const users_logout = (refresh_token: string) =>
     mutateToken(undefined)
   })
 
-export const users_refresh_token = (refresh_token: string) =>
-  axios
-    .post<AllTok>('/api/users/refresh_token', {
-      refresh_token,
-    })
-    .then(x => {
-      handleToken(x.data)
-      return x.data
-    })
-
-function handleToken(tokens: Awaited<ReturnType<typeof users_login>>) {
-  axios.defaults.headers.common.Authorization = `${tokens.token_type} ${tokens.access_token}`
-  mutateToken(tokens)
-}
+export const users_refresh_token = () =>
+  axios.post<LoginTok>('/api/users/refresh_token').then(x => {
+    mutateToken(x.data)
+    return x.data
+  })
 
 async function refreshOnErr(err: any) {
-  if (err instanceof AxiosError && err.response?.status === 401) {
-    await users_refresh_token(token()?.refresh_token ?? '')
+  if (
+    err instanceof AxiosError &&
+    err.response?.status != null &&
+    err.response?.status >= 400
+  ) {
+    await users_refresh_token()
     return true
   }
   return false
 }
+
+//todo reset password

@@ -1,6 +1,7 @@
 import { users_login, users_me } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
-import { createResource, createSignal } from 'solid-js'
+import axios from 'axios'
+import { createEffect, createResource, createSignal } from 'solid-js'
 
 export type UrlWithName = {
   name: string
@@ -31,14 +32,9 @@ export const [currency, setCurrency] = makePersisted(
 type AccTok = {
   access_token: string
   token_type: 'bearer'
-  expires_in: number
+  // expires_in: number
 }
-type RefreshTok = {
-  refresh_token: string
-  refresh_expires_in: number
-}
-
-export type AllTok = AccTok & RefreshTok
+export type LoginTok = AccTok
 
 export const [loginCred, setLoginCred] = createSignal<
   Parameters<typeof users_login>[0]
@@ -52,9 +48,17 @@ export const [token, { mutate: mutateToken, refetch: refetchToken }] = createRes
   {
     name: 'resource:token',
     storage: () =>
-      makePersisted(createSignal<Awaited<ReturnType<typeof users_login>>>()),
+      makePersisted(createSignal<Awaited<ReturnType<typeof users_login>>>(), {
+        name: 'persisted:resource:token',
+      }),
   }
 )
+
+createEffect(() => {
+  const tok = token()
+  axios.defaults.headers.common.Authorization =
+    tok != null ? `${tok.token_type} ${tok.access_token}` : undefined
+})
 
 //
 //
