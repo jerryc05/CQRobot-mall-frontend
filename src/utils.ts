@@ -60,7 +60,6 @@ export const [loginCred, setLoginCred] =
     )
 
 createEffect(() => {
-  console.log('token:', token())
   const tok = token()
   axios.defaults.headers.common.Authorization =
     tok != null ? `${tok.token_type} ${tok.access_token}` : undefined
