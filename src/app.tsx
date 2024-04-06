@@ -19,7 +19,7 @@ import {
   registerUrl,
   setCurrency,
 } from '@/utils'
-import { users_logout } from './api'
+import { users_logout, users_me } from './api'
 
 export function App() {
   return (
@@ -93,7 +93,7 @@ function Header() {
               type='button'
               class='h-full'
               onClick={() => {
-                users_logout()
+                users_logout().then(() => users_me())
               }}
             >
               Logout
