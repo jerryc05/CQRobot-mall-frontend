@@ -16,11 +16,11 @@ import {
   homeUrl,
   loginUrl,
   me,
+  refetchMe,
   registerUrl,
   setCurrency,
-  refetchMe,
 } from '@/utils'
-import { users_logout, users_me } from './api'
+import { users_logout } from './api'
 
 export function App() {
   return (
