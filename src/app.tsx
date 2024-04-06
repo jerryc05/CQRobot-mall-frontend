@@ -93,7 +93,10 @@ function Header() {
               type='button'
               class='h-full'
               onClick={() => {
-                users_logout().then(() => users_me())
+                users_logout().then(() =>
+                  // let it fail so that the user logs out
+                  users_me()
+                )
               }}
             >
               Logout
