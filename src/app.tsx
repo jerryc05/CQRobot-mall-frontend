@@ -6,6 +6,7 @@ import Page404 from '@/errors/404'
 import Account from '@/pages/account/account'
 import Home from '@/pages/home'
 import Login from '@/pages/login'
+import Product from '@/pages/products/productId'
 import Register from '@/pages/register'
 import {
   SupportedCurrencies,
@@ -16,6 +17,7 @@ import {
   homeUrl,
   loginUrl,
   me,
+  productIdUrl,
   refetchMe,
   registerUrl,
   setCurrency,
@@ -35,6 +37,7 @@ export function App() {
           <Route path={registerUrl} component={Register} />
           <Route path={loginUrl} component={Login} />
           <Route path={accountUrl} component={Account} />
+          <Route path={productIdUrl()} component={Product} />
           <Route path='**' component={Page404} />
         </Router>
       </main>
@@ -189,7 +192,11 @@ function NavBar() {
             ] as UrlWithName[]
           }
         >
-          {x => <div class='p-5'>{x().name}</div>}
+          {x => (
+            <a href={x().url} class='p-5'>
+              {x().name}
+            </a>
+          )}
         </Index>
       </div>
     </nav>

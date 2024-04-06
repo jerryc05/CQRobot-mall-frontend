@@ -1,3 +1,4 @@
+import { productIdUrl } from '@/utils'
 import { Index } from 'solid-js'
 import lightBulb from '/Simple_light_bulb_graphic.png'
 
@@ -68,11 +69,14 @@ function NewCarousel() {
       <div class='flex-grow h-[30rem] flex flex-col flex-wrap overflow-y-auto'>
         <Index each={['1', '2', '3', '4', '5', '6', '7', '8', '9']}>
           {x => (
-            <div class='h-1/2 w-60 flex flex-col items-center border-2 border-white'>
+            <a
+              href={productIdUrl(x())}
+              class='h-1/2 w-60 flex flex-col items-center border-2 border-white'
+            >
               <img class='min-h-0 object-contain' src={lightBulb} alt={x()} />
               <div>$0.00-$0.00</div>
               <div>Product name here ...</div>
-            </div>
+            </a>
           )}
         </Index>
       </div>
