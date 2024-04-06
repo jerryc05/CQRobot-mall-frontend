@@ -1,8 +1,10 @@
-import { loginCred, refetchToken, setLoginCred, token } from '@/utils'
+import { homeUrl, loginCred, refetchToken, setLoginCred, token } from '@/utils'
+import { useNavigate } from '@solidjs/router'
 import { Loader2 } from 'lucide-solid'
 import { formClass, labelClass, submitBtnHeight } from './util_login_register'
 
 export default function Login() {
+  const navigate = useNavigate()
   return (
     <div class='w-[25rem] my-auto self-center'>
       <div class='w-full my-7 font-semibold text-center text-4xl'>Login</div>
@@ -12,7 +14,9 @@ export default function Login() {
           e.preventDefault()
           const cred = loginCred()
           if (cred?.email && cred?.password) {
-            refetchToken()
+            Promise.resolve(refetchToken()).then(() => {
+              navigate(homeUrl)
+            })
           }
         }}
       >
