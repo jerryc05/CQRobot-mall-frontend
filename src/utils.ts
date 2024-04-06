@@ -39,22 +39,28 @@ export type LoginTok = AccTok
 export const [loginCred, setLoginCred] =
   createSignal<Parameters<typeof users_login>[0]>()
 
-export const [token, { mutate: mutateToken, refetch: refetchToken }] =
-  createResource(
-    (/* source, { value, refetching } */) => {
-      const cred = loginCred()
-      return cred ? users_login(cred) : null
-    },
-    {
-      name: 'resource:token',
-      storage: () =>
-        makePersisted(createSignal(), {
-          name: 'persisted:resource:token',
-        }),
-    }
-  )
+  const PERSISTED_TOKEN_KEY = 'loginToken'
+  export const [token, { mutate: mutateToken, refetch: refetchToken }] =
+    createResource(
+      (/* source, { value, refetching } */) => {
+        const cred = loginCred()
+        if (cred == null) {
+          const item = localStorage.getItem(PERSISTED_TOKEN_KEY)
+          return item != null ? (JSON.parse(item) as AccTok) : null
+        }
+        return users_login(cred)
+      },
+      {
+        name: `resource:${PERSISTED_TOKEN_KEY}`,
+        storage: x =>
+          makePersisted(createSignal(x), {
+            name: `persisted:${PERSISTED_TOKEN_KEY}`,
+          }),
+      }
+    )
 
 createEffect(() => {
+  console.log('token:', token())
   const tok = token()
   axios.defaults.headers.common.Authorization =
     tok != null ? `${tok.token_type} ${tok.access_token}` : undefined
