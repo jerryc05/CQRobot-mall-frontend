@@ -18,6 +18,7 @@ import {
   me,
   registerUrl,
   setCurrency,
+  refetchMe,
 } from '@/utils'
 import { users_logout, users_me } from './api'
 
@@ -95,7 +96,7 @@ function Header() {
               onClick={() => {
                 users_logout().then(() =>
                   // let it fail so that the user logs out
-                  users_me()
+                  refetchMe()
                 )
               }}
             >
