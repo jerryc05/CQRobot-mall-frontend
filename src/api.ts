@@ -28,7 +28,6 @@ export async function users_me(refreshTokIfFailed = true) {
   } catch (err) {
     if (refreshTokIfFailed && (await refreshOnErr(err)))
       return await users_me(false)
-
     throw Error('Not logged in')
   }
 }
@@ -49,7 +48,8 @@ async function refreshOnErr(err: any) {
   if (
     err instanceof AxiosError &&
     err.response?.status != null &&
-    err.response?.status >= 400
+    err.response?.status >= 400 &&
+    err.response?.status < 500
   ) {
     await users_refresh_token()
     return true

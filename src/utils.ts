@@ -36,23 +36,23 @@ type AccTok = {
 }
 export type LoginTok = AccTok
 
-export const [loginCred, setLoginCred] = createSignal<
-  Parameters<typeof users_login>[0]
->({
-  email: '',
-  password: '',
-})
+export const [loginCred, setLoginCred] =
+  createSignal<Parameters<typeof users_login>[0]>()
 
-export const [token, { mutate: mutateToken, refetch: refetchToken }] = createResource(
-  (/* source, { value, refetching } */) => users_login(loginCred()),
-  {
-    name: 'resource:token',
-    storage: () =>
-      makePersisted(createSignal<Awaited<ReturnType<typeof users_login>>>(), {
-        name: 'persisted:resource:token',
-      }),
-  }
-)
+export const [token, { mutate: mutateToken, refetch: refetchToken }] =
+  createResource(
+    (/* source, { value, refetching } */) => {
+      const cred = loginCred()
+      return cred ? users_login(cred) : null
+    },
+    {
+      name: 'resource:token',
+      storage: () =>
+        makePersisted(createSignal(), {
+          name: 'persisted:resource:token',
+        }),
+    }
+  )
 
 createEffect(() => {
   const tok = token()
