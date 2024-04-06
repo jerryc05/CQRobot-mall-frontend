@@ -19,6 +19,7 @@ import {
   registerUrl,
   setCurrency,
 } from '@/utils'
+import { users_logout } from './api'
 
 export function App() {
   return (
@@ -69,9 +70,11 @@ function Header() {
           )}
         </Index>
       </div>
-      <div class='flex items-center gap-x-2'>
+      <div class='h-10 flex items-center gap-x-2'>
         <Show
-          when={!me.loading && !me.error}
+          when={
+            1 //  !me.loading && !me.error
+          }
           fallback={
             <>
               <a
@@ -86,7 +89,18 @@ function Header() {
             </>
           }
         >
-          <>您好，{me()?.first_name}！</>
+          <>
+            <div>Hello, {me()?.first_name}！</div>
+            <button
+              type='button'
+              class='h-full'
+              onClick={() => {
+                users_logout()
+              }}
+            >
+              Logout
+            </button>
+          </>
         </Show>
         <Currency />
       </div>
@@ -96,9 +110,9 @@ function Header() {
 
 function Currency() {
   const itemClassList =
-    'w-24 h-10 flex justify-center items-center bg-gray-300 cursor-pointer'
+    'w-24 h-full flex justify-center items-center bg-gray-300 cursor-pointer'
   return (
-    <div class='relative [&>div]:hover:flex'>
+    <div class='h-full relative [&>div]:hover:flex'>
       <div class={itemClassList}>{currency()}</div>
       <div class='flex-col absolute top-full hidden'>
         <Index each={Object.values(SupportedCurrencies)}>

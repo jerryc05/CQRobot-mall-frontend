@@ -32,9 +32,8 @@ export async function users_me(refreshTokIfFailed = true) {
   }
 }
 
-export const users_logout = (refresh_token: string) =>
+export const users_logout = () =>
   axios.post('/api/users/logout').then(() => {
-    axios.defaults.headers.common.Authorization = undefined
     mutateToken(undefined)
   })
 
