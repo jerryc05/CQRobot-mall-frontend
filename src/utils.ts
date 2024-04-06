@@ -19,7 +19,7 @@ export enum SupportedCurrencies {
 export const [currency, setCurrency] = makePersisted(
   createSignal(SupportedCurrencies.USD),
   {
-    name: 'currency',
+    name: 'persisted:currency',
   }
 )
 
