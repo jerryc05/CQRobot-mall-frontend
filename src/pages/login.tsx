@@ -10,7 +10,8 @@ export default function Login() {
         class={formClass}
         onSubmit={e => {
           e.preventDefault()
-          if (loginCred().email && loginCred().password) {
+          const cred = loginCred()
+          if (cred?.email && cred?.password) {
             refetchToken()
           }
         }}
@@ -22,7 +23,10 @@ export default function Login() {
             type='email'
             autocomplete='email'
             onInput={e => {
-              setLoginCred(x => ({ ...x, email: e.target.value }))
+              setLoginCred(x => ({
+                email: e.target.value,
+                password: x?.password ?? '',
+              }))
             }}
           />
         </label>
@@ -34,14 +38,17 @@ export default function Login() {
             type='password'
             autocomplete='new-password'
             onInput={e => {
-              setLoginCred(x => ({ ...x, password: e.target.value }))
+              setLoginCred(x => ({
+                email: x?.email ?? '',
+                password: e.target.value,
+              }))
             }}
           />
         </label>
 
         <button
           type='submit'
-          disabled={!loginCred().email || !loginCred().password}
+          disabled={!loginCred()?.email || !loginCred()?.password}
           class={`${submitBtnHeight} w-full px-4 py-2 rounded-lg bg-blue-700 disabled:bg-gray-400 text-white`}
         >
           {token.loading ? <Loader2 class='w-full animate-spin' /> : 'Login'}
