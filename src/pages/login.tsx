@@ -1,5 +1,12 @@
-import { users_me, users_reset_password } from '@/api'
-import { homeUrl, loginCred, refetchToken, setLoginCred, token } from '@/utils'
+import { users_reset_password } from '@/api'
+import {
+  homeUrl,
+  loginCred,
+  refetchMe,
+  refetchToken,
+  setLoginCred,
+  token,
+} from '@/utils'
 import { useNavigate } from '@solidjs/router'
 import { Loader2 } from 'lucide-solid'
 import { Show, createSignal } from 'solid-js'
@@ -25,7 +32,7 @@ export default function Login() {
             const newPwd = newPwd_()
             if (newPwd == null)
               Promise.resolve(refetchToken())
-                .then(() => users_me())
+                .then(() => refetchMe())
                 .then(() => {
                   navigate(homeUrl)
                 })

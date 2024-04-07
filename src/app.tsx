@@ -2,6 +2,7 @@ import { Route, Router } from '@solidjs/router'
 import { Loader2, Search } from 'lucide-solid'
 import { Index, Match, Switch } from 'solid-js'
 
+import { users_logout } from '@/api'
 import Page404 from '@/errors/404'
 import Account from '@/pages/account/account'
 import Home from '@/pages/home'
@@ -22,7 +23,6 @@ import {
   registerUrl,
   setCurrency,
 } from '@/utils'
-import { users_logout } from './api'
 
 export function App() {
   return (
