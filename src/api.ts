@@ -32,16 +32,11 @@ export async function users_me(refreshTokIfFailed = true) {
   }
 }
 
-export const users_reset_password = ({
-  email,
-  old_password,
-  new_password,
-}: {
+export const users_reset_password = (body: {
   email: string
   old_password: string
   new_password: string
-}) =>
-  axios.post('/api/users/reset_password', { email, old_password, new_password })
+}) => axios.post('/api/users/reset_password', body)
 
 export const users_logout = () =>
   axios.post('/api/users/logout').then(() => {
