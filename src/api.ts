@@ -1,4 +1,4 @@
-import { type LoginTok, mutateToken } from '@/utils'
+import { type LoginTok, setLoginToken } from '@/utils'
 import axios, { AxiosError } from 'axios'
 
 export const users_register = (body: {
@@ -11,7 +11,7 @@ export const users_register = (body: {
 
 export const users_login = (body: { email: string; password: string }) =>
   axios.post<LoginTok>('/api/users/login', body).then(x => {
-    mutateToken(x.data)
+    setLoginToken(x.data)
     return x.data
   })
 
@@ -45,12 +45,12 @@ export const users_reset_password = ({
 
 export const users_logout = () =>
   axios.post('/api/users/logout').then(() => {
-    mutateToken(undefined)
+    setLoginToken(undefined)
   })
 
 export const users_refresh_token = () =>
   axios.post<LoginTok>('/api/users/refresh_token').then(x => {
-    mutateToken(x.data)
+    setLoginToken(x.data)
     return x.data
   })
 

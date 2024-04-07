@@ -2,8 +2,8 @@ import { users_reset_password } from '@/api'
 import {
   homeUrl,
   loginCred,
+  loginUsingCredAndSetToken,
   refetchMe,
-  refetchToken,
   setLoginCred,
   token,
 } from '@/utils'
@@ -31,7 +31,7 @@ export default function Login() {
           if (cred?.email && cred?.password) {
             const newPwd = newPwd_()
             if (newPwd == null)
-              Promise.resolve(refetchToken())
+              Promise.resolve(loginUsingCredAndSetToken())
                 .then(() => refetchMe())
                 .then(() => {
                   navigate(homeUrl)

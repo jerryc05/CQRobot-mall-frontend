@@ -39,8 +39,9 @@ export type LoginTok = AccTok
 export const [loginCred, setLoginCred] =
   createSignal<Parameters<typeof users_login>[0]>()
 
-  const PERSISTED_TOKEN_KEY = 'loginToken'
-  export const [token, { mutate: mutateToken, refetch: refetchToken }] =
+  const TOKEN_KEY = 'loginToken'
+  const PERSISTED_TOKEN_KEY = `persisted:${TOKEN_KEY}`
+  export const [token, { mutate: setLoginToken, refetch: loginUsingCredAndSetToken }] =
     createResource(
       (/* source, { value, refetching } */) => {
         const cred = loginCred()
@@ -51,10 +52,10 @@ export const [loginCred, setLoginCred] =
         return users_login(cred)
       },
       {
-        name: `resource:${PERSISTED_TOKEN_KEY}`,
+        name: `resource:${TOKEN_KEY}`,
         storage: x =>
           makePersisted(createSignal(x), {
-            name: `persisted:${PERSISTED_TOKEN_KEY}`,
+            name: PERSISTED_TOKEN_KEY,
           }),
       }
     )
