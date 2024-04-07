@@ -26,7 +26,7 @@ export async function users_me(refreshTokIfFailed = true) {
       }>('/api/users/me')
       .then(x => x.data)
   } catch (err) {
-    if (refreshTokIfFailed && (await refreshOnErr(err)))
+    if (refreshTokIfFailed && (await refreshOn401(err)))
       return await users_me(false)
     throw Error('Not logged in')
   }
@@ -54,13 +54,8 @@ export const users_refresh_token = () =>
     return x.data
   })
 
-async function refreshOnErr(err: any) {
-  if (
-    err instanceof AxiosError &&
-    err.response?.status != null &&
-    err.response?.status >= 400 &&
-    err.response?.status < 500
-  ) {
+async function refreshOn401(err: any) {
+  if (err instanceof AxiosError && err.response?.status === 401) {
     await users_refresh_token()
     return true
   }
