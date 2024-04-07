@@ -1,6 +1,6 @@
 import { Route, Router } from '@solidjs/router'
-import { Search } from 'lucide-solid'
-import { Index, Show } from 'solid-js'
+import { Loader2, Search } from 'lucide-solid'
+import { Index, Match, Switch } from 'solid-js'
 
 import Page404 from '@/errors/404'
 import Account from '@/pages/account/account'
@@ -75,9 +75,11 @@ function Header() {
         </Index>
       </div>
       <div class='h-10 flex items-center gap-x-2'>
-        <Show
-          when={!me.loading && !me.error}
-          fallback={
+        <Switch>
+          <Match when={me.loading}>
+            <Loader2 class='animate-spin' />
+          </Match>
+          <Match when={me.error}>
             <>
               <a
                 href={registerUrl}
@@ -89,24 +91,26 @@ function Header() {
                 Login
               </a>
             </>
-          }
-        >
-          <>
-            <div>Hello, {me()?.first_name}！</div>
-            <button
-              type='button'
-              class='h-full'
-              onClick={() => {
-                users_logout().then(() =>
-                  // let it fail so that the user logs out
-                  refetchMe()
-                )
-              }}
-            >
-              Logout
-            </button>
-          </>
-        </Show>
+          </Match>
+          <Match when={1}>
+            <>
+              <div>Hello, {me()?.first_name}！</div>
+              <button
+                type='button'
+                class='h-full'
+                onClick={() => {
+                  users_logout().then(() =>
+                    // let it fail so that the user logs out
+                    refetchMe()
+                  )
+                }}
+              >
+                Logout
+              </button>
+            </>
+          </Match>
+        </Switch>
+
         <Currency />
       </div>
     </header>
