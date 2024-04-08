@@ -119,20 +119,6 @@ export const {
   // delete: cart_delete,
 } = genCrud<ProductWithAmount, 'product_id'>('/api/cart')
 
-// export const cart_list = () =>
-//   axios.get<ProductWithAmount[]>('/api/cart').then(x => x.data)
-
-// export const cart_add = ({
-//   product_id,
-//   incr,
-// }: {
-//   product_id: ProductWithAmount['product_id']
-//   incr: number
-// }) => axios.post(`/api/cart/${product_id}/${incr}`)
-
-// export const cart_change = ({ product_id, amount }: ProductWithAmount) =>
-// axios.patch(`/api/cart/${product_id}/${amount}`)
-
 //
 //
 //
