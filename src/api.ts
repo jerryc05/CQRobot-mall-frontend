@@ -63,6 +63,37 @@ async function refreshOn401(err: any) {
 //
 //
 
+type Address = {
+  id: number
+  address_1: string
+  address_2: string
+  address_3?: string
+  city_state: string
+  zip: string
+  country: string
+}
+
+export const address_list = () =>
+  axios.get<Address['id'][]>('/api/users/address').then(x => x.data)
+
+export const address_create = (body: Omit<Address, 'id'>) =>
+  axios.post<Address['id']>('/api/users/address', body).then(x => x.data)
+
+export const address_read = (id: Address['id']) =>
+  axios.get<Address>(`/api/users/address/${id}`).then(x => x.data)
+
+export const address_update = (body: {id: Address['id']} & Partial<Address>) =>
+  axios.patch<void>('/api/users/address', body).then(x => x.data)
+
+export const address_delete = (id: Address['id']) =>
+  axios.delete<void>(`/api/users/address/${id}`).then(x => x.data)
+
+//
+//
+//
+//
+//
+
 type ProductWithAmount = {
   product_id: string
   amount: number
