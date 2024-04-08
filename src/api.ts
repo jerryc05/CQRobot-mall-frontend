@@ -113,10 +113,10 @@ type ProductWithAmount = HasId<number, 'product_id'> & {
 
 export const {
   list: cart_list,
-  create: cart_create,
+  // create: cart_create,
   read: cart_read,
   update: cart_update,
-  delete: cart_delete,
+  // delete: cart_delete,
 } = genCrud<ProductWithAmount, 'product_id'>('/api/cart')
 
 // export const cart_list = () =>
