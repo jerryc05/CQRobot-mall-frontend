@@ -117,3 +117,21 @@ export const cart_add = ({
 
 export const cart_change = ({ product_id, amount }: ProductWithAmount) =>
   axios.patch('/api/cart', { product_id, amount })
+
+//
+//
+//
+//
+//
+
+export type Product = {
+  id: string
+  name: string
+  description: string
+  price: number
+  currency_symbol: string
+  image_url: string
+}
+
+export const product_detail = (id:Product['id']) =>
+  axios.get<Product>(`/api/products/${id}`).then(x => x.data)
