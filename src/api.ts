@@ -63,8 +63,28 @@ async function refreshOn401(err: any) {
 //
 //
 
-type Address = {
-  id: number
+type HasId<T, ID extends PropertyKey> = { [K in ID]: T }
+
+function genCrud<
+  T extends HasId<IdT, IdKey>,
+  IdKey extends PropertyKey,
+  IdT = T[IdKey]
+>(api_: string) {
+  let api = api_
+  while (api.endsWith('/')) api = api.slice(0, -1)
+  return {
+    list: () => axios.get<T[IdKey][]>(api).then(x => x.data),
+    create: (body: Omit<T, IdKey>) =>
+      axios.post<T[IdKey]>(api, body).then(x => x.data),
+    read: (id: T[IdKey]) => axios.get<T>(`${api}/${id}`).then(x => x.data),
+    update: ({ id, body }: { id: T[IdKey]; body: Partial<T> }) =>
+      axios.patch<void>(`${api}/${id}`, body).then(x => x.data),
+    delete: (id: T[IdKey]) =>
+      axios.delete<void>(`${api}/${id}`).then(x => x.data),
+  }
+}
+
+type Address = HasId<number, 'id'> & {
   address_1: string
   address_2: string
   address_3?: string
@@ -73,25 +93,13 @@ type Address = {
   country: string
 }
 
-export const address_list = () =>
-  axios.get<Address['id'][]>('/api/users/address').then(x => x.data)
-
-export const address_create = (body: Omit<Address, 'id'>) =>
-  axios.post<Address['id']>('/api/users/address', body).then(x => x.data)
-
-export const address_read = (id: Address['id']) =>
-  axios.get<Address>(`/api/users/address/${id}`).then(x => x.data)
-
-export const address_update = ({
-  id,
-  body,
-}: {
-  id: Address['id']
-  body: Partial<Address>
-}) => axios.patch<void>(`/api/users/address/${id}`, body).then(x => x.data)
-
-export const address_delete = (id: Address['id']) =>
-  axios.delete<void>(`/api/users/address/${id}`).then(x => x.data)
+export const {
+  list: address_list,
+  create: address_create,
+  read: address_read,
+  update: address_update,
+  delete: address_delete,
+} = genCrud<Address, 'id'>('/api/users/address')
 
 //
 //
@@ -99,24 +107,31 @@ export const address_delete = (id: Address['id']) =>
 //
 //
 
-type ProductWithAmount = {
-  product_id: string
+type ProductWithAmount = HasId<number, 'product_id'> & {
   amount: number
 }
 
-export const cart_list = () =>
-  axios.get<ProductWithAmount[]>('/api/cart').then(x => x.data)
+export const {
+  list: cart_list,
+  create: cart_create,
+  read: cart_read,
+  update: cart_update,
+  delete: cart_delete,
+} = genCrud<ProductWithAmount, 'product_id'>('/api/cart')
 
-export const cart_add = ({
-  product_id,
-  incr,
-}: {
-  product_id: ProductWithAmount['product_id']
-  incr: number
-}) => axios.post(`/api/cart/${product_id}/${incr}`)
+// export const cart_list = () =>
+//   axios.get<ProductWithAmount[]>('/api/cart').then(x => x.data)
 
-export const cart_change = ({ product_id, amount }: ProductWithAmount) =>
-  axios.patch(`/api/cart/${product_id}/${amount}`)
+// export const cart_add = ({
+//   product_id,
+//   incr,
+// }: {
+//   product_id: ProductWithAmount['product_id']
+//   incr: number
+// }) => axios.post(`/api/cart/${product_id}/${incr}`)
+
+// export const cart_change = ({ product_id, amount }: ProductWithAmount) =>
+// axios.patch(`/api/cart/${product_id}/${amount}`)
 
 //
 //
@@ -134,5 +149,5 @@ export type Product = {
   image_url: string
 }
 
-export const product_detail = (id:Product['id']) =>
+export const product_detail = (id: Product['id']) =>
   axios.get<Product>(`/api/products/${id}`).then(x => x.data)
