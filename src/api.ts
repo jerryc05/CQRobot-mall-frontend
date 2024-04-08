@@ -82,8 +82,13 @@ export const address_create = (body: Omit<Address, 'id'>) =>
 export const address_read = (id: Address['id']) =>
   axios.get<Address>(`/api/users/address/${id}`).then(x => x.data)
 
-export const address_update = (body: {id: Address['id']} & Partial<Address>) =>
-  axios.patch<void>('/api/users/address', body).then(x => x.data)
+export const address_update = ({
+  id,
+  body,
+}: {
+  id: Address['id']
+  body: Partial<Address>
+}) => axios.patch<void>(`/api/users/address/${id}`, body).then(x => x.data)
 
 export const address_delete = (id: Address['id']) =>
   axios.delete<void>(`/api/users/address/${id}`).then(x => x.data)
