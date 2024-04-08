@@ -43,6 +43,7 @@ export default function ProductPage() {
                 {data()?.currency_symbol}
                 {data()?.price}
               </div>
+              <div class='font-bold '>{data()?.weight_grams} grams</div>
               <div class='flex items-center gap-x-2'>
                 <input
                   type='number'

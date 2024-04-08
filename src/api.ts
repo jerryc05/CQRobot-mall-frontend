@@ -130,6 +130,7 @@ export type Product = {
   description: string
   price: number
   currency_symbol: string
+  weight_grams: number
   image_url: string
 }
 
