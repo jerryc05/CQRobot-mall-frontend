@@ -12,8 +12,8 @@ const me = {
   phone_number: '12312341234',
 }
 
-describe('template spec', () => {
-  it('passes', () => {
+describe('login spec', () => {
+  it('persist login state after refresh', () => {
     cy.intercept('POST', '/api/users/login', {
       statusCode: 200,
       body: access_token,

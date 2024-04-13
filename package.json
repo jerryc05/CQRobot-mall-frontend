@@ -6,7 +6,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "lintfix": "biome lint . --apply-unsafe",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "dependencies": {
     "@solid-primitives/storage": "^3.3.0",
