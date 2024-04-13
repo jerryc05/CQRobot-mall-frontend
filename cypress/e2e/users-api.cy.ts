@@ -74,7 +74,7 @@ describe('login api', () => {
     check_not_logged_in()
   })
 
-  it('default no login/', () => {
+  it('default not logged in', () => {
     cy.visit('/')
     check_not_logged_in()
   })
