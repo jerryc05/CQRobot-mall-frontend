@@ -75,7 +75,7 @@ function genCrud<
   return {
     list: () => axios.get<T[IdKey][]>(api).then(x => x.data),
     create: (body: Omit<T, IdKey>) =>
-      axios.post<T[IdKey]>(api, body).then(x => x.data),
+      axios.post<{ [K in IdKey]: T[IdKey] }>(api, body).then(x => x.data),
     read: (id: T[IdKey]) => axios.get<T>(`${api}/${id}`).then(x => x.data),
     update: ({ id, body }: { id: T[IdKey]; body: Partial<T> }) =>
       axios.patch<void>(`${api}/${id}`, body).then(x => x.data),
