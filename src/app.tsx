@@ -87,7 +87,7 @@ function Header() {
               >
                 Register
               </a>
-              <a href='/login' class={btnClass}>
+              <a data-test='login_in_header' href='/login' class={btnClass}>
                 Login
               </a>
             </>

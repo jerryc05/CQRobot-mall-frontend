@@ -58,28 +58,29 @@ describe('login api spec', () => {
     //
     //
 
-    const check_firstname = () =>
+    const check_logged_in_firstname = () =>
       getBySel('firstname_in_header').should('have.text', me.first_name)
 
     cy.url().should('eq', `${Cypress.config().baseUrl}/`)
-    check_firstname()
+    check_logged_in_firstname()
     cy.reload()
-    check_firstname()
+    check_logged_in_firstname()
 
     //
     //
 
     getBySel('logout').click()
-    check_firstname_not_exist()
+    check_not_logged_in()
     cy.reload()
-    check_firstname_not_exist()
+    check_not_logged_in()
   })
 
   it('default no login/', () => {
     cy.visit('/')
-    check_firstname_not_exist()
+    check_not_logged_in()
   })
 })
 
-const check_firstname_not_exist = () =>
-  getBySel('firstname_in_header').should('not.exist')
+function check_not_logged_in() {
+  getBySel('login_in_header').should('exist')
+}
