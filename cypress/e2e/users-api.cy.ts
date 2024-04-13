@@ -12,7 +12,6 @@ const me = {
   phone_number: '12312341234',
 }
 
-
 before(() => {
   cy.intercept('POST', '/api/users/login', {
     statusCode: 200,
@@ -48,7 +47,7 @@ before(() => {
   })
 })
 
-describe('login api spec', () => {
+describe('login api', () => {
   it('persist login/logout state after refresh', () => {
     cy.visit('/login')
     getBySel('email').type(me.email)
