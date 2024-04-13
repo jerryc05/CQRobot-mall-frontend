@@ -53,6 +53,7 @@ export default function Login() {
         <label class={labelClass}>
           <div>Email</div>
           <input
+            data-test='email'
             required
             type='email'
             autocomplete='email'
@@ -80,6 +81,7 @@ export default function Login() {
           </div>
           <input
             required
+            data-test='password'
             type='password'
             autocomplete='current-password'
             onInput={e => {
@@ -106,6 +108,7 @@ export default function Login() {
         </Show>
 
         <button
+          data-test='submit'
           type='submit'
           disabled={
             !loginCred()?.email || !loginCred()?.password || newPwd_() === ''

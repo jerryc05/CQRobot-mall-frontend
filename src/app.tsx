@@ -94,7 +94,11 @@ function Header() {
           </Match>
           <Match when={1}>
             <>
-              <div>Hello, {me()?.first_name}！</div>
+              <div>
+                Hello,{' '}
+                <span data-test='firstname_in_header'>{me()?.first_name}</span>
+                ！
+              </div>
               <button
                 type='button'
                 class='h-full'
