@@ -63,7 +63,7 @@ async function refreshOn401(err: any) {
 //
 //
 
-type HasId<T, ID extends PropertyKey> = { [K in ID]: T }
+type HasId<IdT, IdKey extends PropertyKey> = { [K in IdKey]: IdT }
 
 function genCrud<
   T extends HasId<IdT, IdKey>,
