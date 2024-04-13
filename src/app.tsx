@@ -100,6 +100,7 @@ function Header() {
                 ！
               </div>
               <button
+                data-test='logout'
                 type='button'
                 class='h-full'
                 onClick={() => {

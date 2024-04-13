@@ -12,21 +12,34 @@ const me = {
   phone_number: '12312341234',
 }
 
-describe('login spec', () => {
-  it('persist login state after refresh', () => {
-    cy.intercept('POST', '/api/users/login', {
-      statusCode: 200,
-      body: access_token,
-    })
+function intercept() {
+  cy.intercept('POST', '/api/users/login', {
+    statusCode: 200,
+    body: access_token,
+  })
 
-    cy.intercept('GET', '/api/users/me', req => {
-      if (
-        req.headers.authorization ===
-        `${access_token.token_type} ${access_token.access_token}`
-      )
-        req.reply(me)
-      else req.reply(401)
-    })
+  cy.intercept('GET', '/api/users/me', req => {
+    if (
+      req.headers.authorization ===
+      `${access_token.token_type} ${access_token.access_token}`
+    )
+      req.reply(me)
+    else req.reply(401)
+  })
+
+  cy.intercept('POST', '/api/users/logout', req => {
+    if (
+      req.headers.authorization ===
+      `${access_token.token_type} ${access_token.access_token}`
+    )
+      req.reply('')
+    else req.reply(401)
+  })
+}
+
+describe('login api spec', () => {
+  it('login, persist state after refresh, logout', () => {
+    intercept()
 
     cy.visit('/login')
     getBySel('email').type(me.email)
@@ -40,5 +53,8 @@ describe('login spec', () => {
     check_firstname()
     cy.reload()
     check_firstname()
+
+    getBySel('logout').click()
+    getBySel('firstname_in_header').should('not.exist')
   })
 })
