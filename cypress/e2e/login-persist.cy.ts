@@ -70,12 +70,16 @@ describe('login api spec', () => {
     //
     //
 
-    const check_firstname_not_exist = () =>
-      getBySel('firstname_in_header').should('not.exist')
-
     getBySel('logout').click()
     check_firstname_not_exist()
     cy.reload()
     check_firstname_not_exist()
   })
+  it('default no login/', () => {
+    intercept()
+    check_firstname_not_exist()
+  })
 })
+
+const check_firstname_not_exist = () =>
+  getBySel('firstname_in_header').should('not.exist')
