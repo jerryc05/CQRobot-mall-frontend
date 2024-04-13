@@ -38,13 +38,16 @@ function intercept() {
 }
 
 describe('login api spec', () => {
-  it('login, persist state after refresh, logout', () => {
+  it('persist login/logout state after refresh', () => {
     intercept()
 
     cy.visit('/login')
     getBySel('email').type(me.email)
     getBySel('password').type('password')
     getBySel('submit').click()
+
+    //
+    //
 
     const check_firstname = () =>
       getBySel('firstname_in_header').should('have.text', me.first_name)
@@ -54,7 +57,15 @@ describe('login api spec', () => {
     cy.reload()
     check_firstname()
 
+    //
+    //
+
+    const check_firstname_not_exist = () =>
+      getBySel('firstname_in_header').should('not.exist')
+
     getBySel('logout').click()
-    getBySel('firstname_in_header').should('not.exist')
+    check_firstname_not_exist()
+    cy.reload()
+    check_firstname_not_exist()
   })
 })
