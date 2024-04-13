@@ -35,6 +35,16 @@ function intercept() {
       req.reply('')
     else req.reply(401)
   })
+
+  cy.intercept('POST', '/api/users/refresh_token', req => {
+    if (
+      req.headers.authorization ===
+      `${access_token.token_type} ${access_token.access_token}`
+    ) {
+      access_token.access_token += '_'
+      req.reply(access_token)
+    } else req.reply(401)
+  })
 }
 
 describe('login api spec', () => {
