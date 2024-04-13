@@ -12,7 +12,8 @@ const me = {
   phone_number: '12312341234',
 }
 
-function intercept() {
+
+before(() => {
   cy.intercept('POST', '/api/users/login', {
     statusCode: 200,
     body: access_token,
@@ -45,12 +46,10 @@ function intercept() {
       req.reply(access_token)
     } else req.reply(401)
   })
-}
+})
 
 describe('login api spec', () => {
   it('persist login/logout state after refresh', () => {
-    intercept()
-
     cy.visit('/login')
     getBySel('email').type(me.email)
     getBySel('password').type('password')
@@ -75,8 +74,9 @@ describe('login api spec', () => {
     cy.reload()
     check_firstname_not_exist()
   })
+
   it('default no login/', () => {
-    intercept()
+    cy.visit('/')
     check_firstname_not_exist()
   })
 })
