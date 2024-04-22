@@ -5,6 +5,7 @@ import { Index } from 'solid-js'
 import Page404 from '@/errors/404'
 import Account from '@/pages/account/account'
 import { Header } from '@/pages/appHeader/Header'
+import { CartPopover } from '@/pages/appHeader/HeaderCartPopover'
 import Cart from '@/pages/cart/Cart'
 import Checkout from '@/pages/checkout/Checkout'
 import Home from '@/pages/home/Home'
@@ -54,7 +55,6 @@ export function App() {
   )
 }
 
-
 function SearchAndCart() {
   return (
     <div class='flex justify-end items-center gap-x-3'>
@@ -68,7 +68,7 @@ function SearchAndCart() {
           <Search size='20' />
         </button>
       </div>
-      <div> 0 item(s) - $0.00</div>
+      <CartPopover />
     </div>
   )
 }

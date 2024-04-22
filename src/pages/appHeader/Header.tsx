@@ -1,34 +1,38 @@
 import { Loader2 } from 'lucide-solid'
-import { Match, Switch } from 'solid-js'
+import { For, Match, Switch } from 'solid-js'
 
 import { users_logout } from '@/api'
-import { btnClass, me, refetchMe, registerUrl } from '@/utils'
+import {
+  type UrlWithName,
+  btnClass,
+  checkoutUrl,
+  currency,
+  homeUrl,
+  me,
+  refetchMe,
+  registerUrl,
+} from '@/utils'
 
-import { CartPopover } from './HeaderCartPopover'
 import { Currency } from './HeaderCurrency'
 
 export function Header() {
+  const headerLeftInfo: UrlWithName[] = [
+    { name: 'My Account', url: homeUrl },
+    { name: 'My Cart', url: checkoutUrl },
+    { name: `Checkout (${currency()})`, url: checkoutUrl },
+  ]
   return (
     <header class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
-      {/* <div class='flex'>
-        <For
-          each={
-            [
-              { name: 'My Account', url: homeUrl },
-              { name: 'My Cart', url: homeUrl },
-              { name: `Checkout (${currency()})`, url: homeUrl },
-            ] as UrlWithName[]
-          }
-        >
+      <div class='flex'>
+        <For each={headerLeftInfo}>
           {x => (
             <a href={x.url} class='py-2 px-4 no-underline hover:underline'>
               {x.name}
             </a>
           )}
         </For>
-      </div> */}
-      <CartPopover />
-      {/*  */}
+      </div>
+      <div />
       <div class='h-10 flex items-center gap-x-2'>
         <Switch>
           <Match when={me.loading}>

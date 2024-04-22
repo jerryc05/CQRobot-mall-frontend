@@ -6,9 +6,9 @@ export function CartPopover() {
   return (
     <div class='relative [&>div]:hover:visible'>
       <a href={cartUrl} class='py-2 px-4 no-underline hover:underline'>
-        Cart{cart()?.length ? ` (${cart()?.length})` : ''}
+        {cart()?.length ?? 0} item(s) - $?.??
       </a>
-      <div class='w-80 p-4 border-2 border-black rounded-lg absolute bg-white invisible'>
+      <div class='w-80 p-4 border-2 border-black rounded-lg absolute right-0 bg-white invisible'>
         <Index each={cart()}>
           {x => (
             <div class='w-full flex justify-between'>
