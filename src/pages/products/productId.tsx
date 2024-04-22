@@ -9,6 +9,7 @@ export default function ProductPage() {
   const [data /* , { mutate, refetch } */] = createResource(
     params.id,
     id => {
+      // todo: implement source
       const p: Product = {
         id: params.id,
         name: `Product name #${id}`,

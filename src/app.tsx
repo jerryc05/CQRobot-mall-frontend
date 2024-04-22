@@ -1,27 +1,25 @@
 import { Route, Router } from '@solidjs/router'
-import { Loader2, Search } from 'lucide-solid'
-import { Index, Match, Switch } from 'solid-js'
+import { Search } from 'lucide-solid'
+import { Index } from 'solid-js'
 
-import { users_logout } from '@/api'
 import Page404 from '@/errors/404'
 import Account from '@/pages/account/account'
-import Home from '@/pages/home'
+import { Header } from '@/pages/appHeader/Header'
+import Cart from '@/pages/cart/Cart'
+import Checkout from '@/pages/checkout/Checkout'
+import Home from '@/pages/home/Home'
 import Login from '@/pages/login'
 import Product from '@/pages/products/productId'
 import Register from '@/pages/register'
 import {
-  SupportedCurrencies,
   type UrlWithName,
   accountUrl,
-  btnClass,
-  currency,
+  cartUrl,
+  checkoutUrl,
   homeUrl,
   loginUrl,
-  me,
   productIdUrl,
-  refetchMe,
   registerUrl,
-  setCurrency,
 } from '@/utils'
 
 export function App() {
@@ -38,6 +36,8 @@ export function App() {
           <Route path={loginUrl} component={Login} />
           <Route path={accountUrl} component={Account} />
           <Route path={productIdUrl()} component={Product} />
+          <Route path={cartUrl} component={Cart} />
+          <Route path={checkoutUrl} component={Checkout} />
           <Route path='**' component={Page404} />
         </Router>
       </main>
@@ -54,99 +54,6 @@ export function App() {
   )
 }
 
-function Header() {
-  return (
-    <header class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>
-      <div class='flex'>
-        <Index
-          each={
-            [
-              { name: 'My Account', url: homeUrl },
-              { name: 'My Cart', url: homeUrl },
-              { name: `Checkout (${currency()})`, url: homeUrl },
-            ] as UrlWithName[]
-          }
-        >
-          {x => (
-            <a href={x().url} class='py-2 px-4 no-underline hover:underline'>
-              {x().name}
-            </a>
-          )}
-        </Index>
-      </div>
-      <div class='h-10 flex items-center gap-x-2'>
-        <Switch>
-          <Match when={me.loading}>
-            <Loader2 class='animate-spin' />
-          </Match>
-          <Match when={me.error}>
-            <>
-              <a
-                href={registerUrl}
-                class={`bg-gray-500 text-white ${btnClass}`}
-              >
-                Register
-              </a>
-              <a data-test='login_in_header' href='/login' class={btnClass}>
-                Login
-              </a>
-            </>
-          </Match>
-          <Match when={1}>
-            <>
-              <div>
-                Hello,{' '}
-                <span data-test='firstname_in_header'>{me()?.first_name}</span>
-                ！
-              </div>
-              <button
-                data-test='logout'
-                type='button'
-                class='h-full'
-                onClick={() => {
-                  users_logout().then(() =>
-                    // let it fail so that the user logs out
-                    refetchMe()
-                  )
-                }}
-              >
-                Logout
-              </button>
-            </>
-          </Match>
-        </Switch>
-
-        <Currency />
-      </div>
-    </header>
-  )
-}
-
-function Currency() {
-  const itemClassList =
-    'w-24 h-full flex justify-center items-center bg-gray-300 cursor-pointer'
-  return (
-    <div class='h-full relative [&>div]:hover:flex'>
-      <div class={itemClassList}>{currency()}</div>
-      <div class='flex-col absolute top-full hidden'>
-        <Index each={Object.values(SupportedCurrencies)}>
-          {x => (
-            <button
-              type='button'
-              classList={{ hidden: x() === currency() }}
-              class={itemClassList}
-              onclick={() => {
-                setCurrency(x())
-              }}
-            >
-              {x().toString()}
-            </button>
-          )}
-        </Index>
-      </div>
-    </div>
-  )
-}
 
 function SearchAndCart() {
   return (

@@ -87,3 +87,5 @@ export const registerUrl = '/register'
 export const loginUrl = '/login'
 export const accountUrl = '/account'
 export const productIdUrl = (id?: string | number) => `/products/${id ?? ':id'}`
+export const cartUrl = '/cart'
+export const checkoutUrl = '/checkout'
