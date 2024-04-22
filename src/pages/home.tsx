@@ -71,7 +71,7 @@ function NewCarousel() {
           {x => (
             <a
               href={productIdUrl(x())}
-              class='h-1/2 w-60 flex flex-col items-center border-2 border-white'
+              class='h-1/2 w-60 flex flex-col items-center border-2 border-white bg-white'
             >
               <img class='min-h-0 object-contain' src={lightBulb} alt={x()} />
               <div>$0.00-$0.00</div>

@@ -9,14 +9,16 @@ export default function ProductPage() {
   const [data /* , { mutate, refetch } */] = createResource(
     params.id,
     id => {
-      return {
+      const p: Product = {
         id: params.id,
         name: `Product name #${id}`,
         description: `Description of product ${id}`,
         price: Number.parseFloat((Math.random() * 100).toFixed(2)),
         currency_symbol: '$',
+        weight_grams: Math.floor(Math.random() * 1000),
         image_url: lightBulb,
-      } as Product
+      }
+      return p
     },
     {
       name: `resource:products:${params.id}`,
@@ -43,7 +45,7 @@ export default function ProductPage() {
                 {data()?.currency_symbol}
                 {data()?.price}
               </div>
-              <div class='font-bold '>{data()?.weight_grams} grams</div>
+              <div class='font-medium '>{data()?.weight_grams} gram(s)</div>
               <div class='flex items-center gap-x-2'>
                 <input
                   type='number'
