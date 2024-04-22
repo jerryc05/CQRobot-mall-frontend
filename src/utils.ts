@@ -39,26 +39,28 @@ export type LoginTok = AccTok
 export const [loginCred, setLoginCred] =
   createSignal<Parameters<typeof users_login>[0]>()
 
-  const TOKEN_KEY = 'loginToken'
-  const PERSISTED_TOKEN_KEY = `persisted:${TOKEN_KEY}`
-  export const [token, { mutate: setLoginToken, refetch: loginUsingCredAndSetToken }] =
-    createResource(
-      (/* source, { value, refetching } */) => {
-        const cred = loginCred()
-        if (cred == null) {
-          const item = localStorage.getItem(PERSISTED_TOKEN_KEY)
-          return item != null ? (JSON.parse(item) as AccTok) : null
-        }
-        return users_login(cred)
-      },
-      {
-        name: `resource:${TOKEN_KEY}`,
-        storage: x =>
-          makePersisted(createSignal(x), {
-            name: PERSISTED_TOKEN_KEY,
-          }),
-      }
-    )
+const TOKEN_KEY = 'loginToken'
+const PERSISTED_TOKEN_KEY = `persisted:${TOKEN_KEY}`
+export const [
+  token,
+  { mutate: setLoginToken, refetch: loginUsingCredAndSetToken },
+] = createResource(
+  (/* source, { value, refetching } */) => {
+    const cred = loginCred()
+    if (cred == null) {
+      const item = localStorage.getItem(PERSISTED_TOKEN_KEY)
+      return item != null ? (JSON.parse(item) as AccTok) : null
+    }
+    return users_login(cred)
+  },
+  {
+    name: `resource:${TOKEN_KEY}`,
+    storage: x =>
+      makePersisted(createSignal(x), {
+        name: PERSISTED_TOKEN_KEY,
+      }),
+  }
+)
 
 createEffect(() => {
   const tok = token()
