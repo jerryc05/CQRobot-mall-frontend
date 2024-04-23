@@ -125,15 +125,30 @@ export const {
 //
 //
 
+
+
 export type Product = {
-  id: string
-  name: string
-  description: string
+  id: number
+  model: string
+  sku: string
+  mpn: string
+  manufacturer_id: number
   price: number
-  currency_symbol: string
+  // date_available: Date // todo: del this
   weight_grams: number
-  image_url: string
+  sold_count: number // todo: was "viewed"
+  date_added: Date
+  date_modified: Date
 }
 
 export const product_detail = (id: Product['id']) =>
-  axios.get<Product>(`/api/products/${id}`).then(x => x.data)
+  axios.get<Product>(`/api/products/${id}`).then(x => {
+    if ((x.data.sold_count as any) == null)
+      // todo: del this after test
+      throw Error(`Product.sold_count not found in product id ${x.data.id}`)
+    return {
+      ...x.data,
+      date_added: new Date(`${x.data.date_added}+08:00`),
+      date_modified: new Date(`${x.data.date_modified}+08:00`),
+    }
+  })
