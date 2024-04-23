@@ -36,6 +36,17 @@ type AccTok = {
 }
 export type LoginTok = AccTok
 
+
+export class LoginTokenMissingError extends Error {
+  constructor() {
+    super('Login token missing')
+  }
+}
+
+//
+//
+//
+
 export const [loginCred, setLoginCred] =
   createSignal<Parameters<typeof users_login>[0]>()
 
@@ -49,7 +60,7 @@ export const [
     const cred = loginCred()
     if (cred == null) {
       const itemStr = localStorage.getItem(PERSISTED_TOKEN_KEY)
-      return itemStr != null ? (JSON.parse(itemStr) as AccTok) : null
+      return itemStr != null ? (JSON.parse(itemStr) as LoginTok) : null
     }
     return users_login(cred)
   },

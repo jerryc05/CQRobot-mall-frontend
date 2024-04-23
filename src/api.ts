@@ -1,5 +1,14 @@
-import { type LoginTok, setLoginToken } from '@/utils'
+import {
+  type LoginTok,
+  LoginTokenMissingError,
+  setLoginToken,
+  token,
+} from '@/utils'
 import axios, { AxiosError } from 'axios'
+
+export function ensureHasToken() {
+  if (token() == null) throw new LoginTokenMissingError()
+}
 
 export const users_register = (body: {
   email: string
@@ -16,6 +25,7 @@ export const users_login = (body: { email: string; password: string }) =>
   })
 
 export async function users_me(refreshTokIfFailed = true) {
+  ensureHasToken()
   try {
     return await axios
       .get<{
@@ -36,18 +46,25 @@ export const users_reset_password = (body: {
   email: string
   old_password: string
   new_password: string
-}) => axios.post('/api/users/reset_password', body)
+}) => {
+  ensureHasToken()
+  return axios.post('/api/users/reset_password', body)
+}
 
-export const users_logout = () =>
-  axios.post('/api/users/logout').then(() => {
+export const users_logout = () => {
+  ensureHasToken()
+  return axios.post('/api/users/logout').then(() => {
     setLoginToken(undefined)
   })
+}
 
-export const users_refresh_token = () =>
-  axios.post<LoginTok>('/api/users/refresh_token').then(x => {
+export const users_refresh_token = () => {
+  ensureHasToken()
+  return axios.post<LoginTok>('/api/users/refresh_token').then(x => {
     setLoginToken(x.data)
     return x.data
   })
+}
 
 async function refreshOn401(err: any) {
   if (err instanceof AxiosError && err.response?.status === 401) {
@@ -69,18 +86,30 @@ function genCrud<
   T extends HasId<IdT, IdKey>,
   IdKey extends PropertyKey,
   IdT = T[IdKey]
->(api_: string) {
+>(api_: string, requiresAuth = false) {
   let api = api_
   while (api.endsWith('/')) api = api.slice(0, -1)
   return {
-    list: () => axios.get<T[IdKey][]>(api).then(x => x.data),
-    create: (body: Omit<T, IdKey>) =>
-      axios.post<{ [K in IdKey]: T[IdKey] }>(api, body).then(x => x.data),
-    read: (id: T[IdKey]) => axios.get<T>(`${api}/${id}`).then(x => x.data),
-    update: ({ id, body }: { id: T[IdKey]; body: Partial<T> }) =>
-      axios.patch<void>(`${api}/${id}`, body).then(x => x.data),
-    delete: (id: T[IdKey]) =>
-      axios.delete<void>(`${api}/${id}`).then(x => x.data),
+    list: () => {
+      if (requiresAuth) ensureHasToken()
+      return axios.get<T[IdKey][]>(api).then(x => x.data)
+    },
+    create: (body: Omit<T, IdKey>) => {
+      if (requiresAuth) ensureHasToken()
+      return axios.post<{ [K in IdKey]: T[IdKey] }>(api, body).then(x => x.data)
+    },
+    read: (id: T[IdKey]) => {
+      if (requiresAuth) ensureHasToken()
+      return axios.get<T>(`${api}/${id}`).then(x => x.data)
+    },
+    update: ({ id, body }: { id: T[IdKey]; body: Partial<T> }) => {
+      if (requiresAuth) ensureHasToken()
+      return axios.patch<void>(`${api}/${id}`, body).then(x => x.data)
+    },
+    delete: (id: T[IdKey]) => {
+      if (requiresAuth) ensureHasToken()
+      return axios.delete<void>(`${api}/${id}`).then(x => x.data)
+    },
   }
 }
 
@@ -99,7 +128,7 @@ export const {
   read: address_read,
   update: address_update,
   delete: address_delete,
-} = genCrud<Address, 'id'>('/api/users/address')
+} = genCrud<Address, 'id'>('/api/users/address', true)
 
 //
 //
@@ -117,15 +146,13 @@ export const {
   read: cart_read,
   update: cart_update,
   // delete: cart_delete,
-} = genCrud<ProductWithAmount, 'product_id'>('/api/cart')
+} = genCrud<ProductWithAmount, 'product_id'>('/api/cart', true)
 
 //
 //
 //
 //
 //
-
-
 
 export type Product = {
   id: number

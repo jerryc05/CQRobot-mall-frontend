@@ -1,6 +1,5 @@
 import { cart_list } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
-import { AxiosError } from 'axios'
 import { createResource, createSignal } from 'solid-js'
 import { isDev } from 'solid-js/web'
 
@@ -21,7 +20,7 @@ export const [cart, { /* mutate: mutateCart, */ refetch: refetchCart }] =
         return await cart_list()
       } catch (e) {
         // todo: remove dummy data
-        if (isDev && e instanceof AxiosError && e.response?.status === 500) {
+        if (isDev) {
           const x: CartList = [1, 2, 4, 5]
           return x
         }
