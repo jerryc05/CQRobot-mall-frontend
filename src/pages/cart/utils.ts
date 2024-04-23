@@ -6,14 +6,15 @@ import { isDev } from 'solid-js/web'
 
 const CART_KEY = 'cartList'
 const PERSISTED_CART_KEY = `persisted:${CART_KEY}`
+type CartList = Awaited<ReturnType<typeof cart_list>>
 export const [cart, { /* mutate: mutateCart, */ refetch: refetchCart }] =
-  createResource(
-    async (source, { value /* , refetching */ }) => {
+  createResource<CartList>(
+    async (_source, { value /* , refetching */ }) => {
       if (value == null) {
         const itemStr = localStorage.getItem(PERSISTED_CART_KEY)
         if (itemStr != null) {
           setTimeout(() => refetchCart, 0)
-          return JSON.parse(itemStr) as Awaited<ReturnType<typeof cart_list>>
+          return JSON.parse(itemStr) as CartList
         }
       }
       try {
@@ -21,7 +22,7 @@ export const [cart, { /* mutate: mutateCart, */ refetch: refetchCart }] =
       } catch (e) {
         // todo: remove dummy data
         if (isDev && e instanceof AxiosError && e.response?.status === 500) {
-          const x: Awaited<ReturnType<typeof cart_list>> = [1, 2, 4, 5]
+          const x: CartList = [1, 2, 4, 5]
           return x
         }
         throw e
