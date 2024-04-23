@@ -4,11 +4,11 @@ import { Index } from 'solid-js'
 
 export function CartPopover() {
   return (
-    <div class='relative [&>div]:hover:block'>
+    <div class='relative [&>div]:hover:flex'>
       <a href={cartUrl} class='py-2 px-4 no-underline hover:underline'>
         {cart()?.length ?? 0} item(s) - $?.??
       </a>
-      <div class='w-80 p-4 border-2 border-black rounded-lg absolute right-0 bg-white hidden'>
+      <div class='w-80 p-4 flex-col gap-y-2 border-2 border-black rounded-lg absolute right-0 bg-white hidden'>
         <Index each={cart()}>
           {x => (
             <div class='w-full flex justify-between'>
@@ -19,7 +19,7 @@ export function CartPopover() {
         </Index>
         <a
           href={checkoutUrl}
-          class='w-full py-1 block rounded bg-blue-200 text-center'
+          class='w-full py-2 block rounded bg-blue-200 text-center'
         >
           Checkout
         </a>
