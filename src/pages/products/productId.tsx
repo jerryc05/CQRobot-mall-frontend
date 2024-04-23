@@ -5,19 +5,26 @@ import { Match, Switch, createResource } from 'solid-js'
 import lightBulb from '/Simple_light_bulb_graphic.png'
 
 export default function ProductPage() {
-  const params = useParams<{ id: Product['id'] }>()
+  const params = useParams<{ id: string }>()
   const [data /* , { mutate, refetch } */] = createResource(
     params.id,
     id => {
       // todo: implement source
       const p: Product = {
-        id: params.id,
-        name: `Product name #${id}`,
-        description: `Description of product ${id}`,
-        price: Number.parseFloat((Math.random() * 100).toFixed(2)),
-        currency_symbol: '$',
-        weight_grams: Math.floor(Math.random() * 1000),
+        id: Number.parseInt(params.id),
+        model: `model-of-${id}`,
+        sku: `sku-of-${id}`,
+        mpn: `mpn-of-${id}`,
+        quantity: Math.floor(Math.random() * 999),
+        stock_status_id: Math.floor(Math.random() * 999),
         image_url: lightBulb,
+        manufacturer_id: Math.floor(Math.random() * 999),
+        price: Number.parseFloat((Math.random() * 100).toFixed(2)),
+        weight_grams: Math.floor(Math.random() * 1000),
+        sold_count: Math.floor(Math.random() * 999),
+        date_available: new Date(),
+        date_added: new Date(),
+        date_modified: new Date(),
       }
       return p
     },
@@ -34,7 +41,7 @@ export default function ProductPage() {
       <Match when={data.error}>Error: {data.error}</Match>
       <Match when={1}>
         <div class='mx-5'>
-          <div class='my-5 text-4xl'>{data()?.name}</div>
+          <div class='my-5 text-4xl'>{data()?.model}</div>
           <div class='flex'>
             <img
               class='basis-1/2 max-h-[50vh] object-contain'
@@ -42,10 +49,7 @@ export default function ProductPage() {
               alt='Product Img'
             />
             <div class='basis-1/2 flex flex-col gap-y-2'>
-              <div class='font-bold text-4xl'>
-                {data()?.currency_symbol}
-                {data()?.price}
-              </div>
+              <div class='font-bold text-4xl'>${data()?.price}</div>
               <div class='font-medium '>{data()?.weight_grams} gram(s)</div>
               <div class='flex items-center gap-x-2'>
                 <input
@@ -59,6 +63,9 @@ export default function ProductPage() {
                 <button type='button' class='p-1 bg-gray-300 rounded'>
                   <Heart />
                 </button>
+              </div>
+              <div>
+                {data()?.sold_count} sold, {data()?.quantity} left
               </div>
             </div>
           </div>

@@ -10,7 +10,7 @@ import Cart from '@/pages/cart/Cart'
 import Checkout from '@/pages/checkout/Checkout'
 import Home from '@/pages/home/Home'
 import Login from '@/pages/login'
-import Product from '@/pages/products/productId'
+import Product from '@/pages/products/ProductId'
 import Register from '@/pages/register'
 import {
   type UrlWithName,

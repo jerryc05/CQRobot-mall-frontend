@@ -132,11 +132,14 @@ export type Product = {
   model: string
   sku: string
   mpn: string
+  quantity: number
+  stock_status_id: number // todo: need clarify
+  image_url: string
   manufacturer_id: number
   price: number
-  // date_available: Date // todo: del this
   weight_grams: number
   sold_count: number // todo: was "viewed"
+  date_available: Date
   date_added: Date
   date_modified: Date
 }
