@@ -1,32 +1,41 @@
-import type { Product } from '@/api'
+import { product_detail } from '@/api'
 import { useParams } from '@solidjs/router'
 import { Heart, Loader2, ShoppingCart } from 'lucide-solid'
 import { Match, Switch, createResource } from 'solid-js'
+import { isDev } from 'solid-js/web'
 import lightBulb from '/Simple_light_bulb_graphic.png'
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>()
   const [data /* , { mutate, refetch } */] = createResource(
-    params.id,
-    id => {
-      // todo: implement source
-      const p: Product = {
-        id: Number.parseInt(params.id),
-        model: `model-of-${id}`,
-        sku: `sku-of-${id}`,
-        mpn: `mpn-of-${id}`,
-        quantity: Math.floor(Math.random() * 999),
-        stock_status_id: Math.floor(Math.random() * 999),
-        image_url: lightBulb,
-        manufacturer_id: Math.floor(Math.random() * 999),
-        price: Number.parseFloat((Math.random() * 100).toFixed(2)),
-        weight_grams: Math.floor(Math.random() * 1000),
-        sold_count: Math.floor(Math.random() * 999),
-        date_available: new Date(),
-        date_added: new Date(),
-        date_modified: new Date(),
+    async () => {
+      const id = Number.parseInt(params.id)
+      try {
+        const x = await product_detail(id)
+        return x
+      } catch (e) {
+        // todo: remove dummy data
+        if (isDev) {
+          const p: Awaited<ReturnType<typeof product_detail>> = {
+            id: Number.parseInt(params.id),
+            model: `model-of-${id}`,
+            sku: `sku-of-${id}`,
+            mpn: `mpn-of-${id}`,
+            quantity: Math.floor(Math.random() * 999),
+            stock_status_id: Math.floor(Math.random() * 999),
+            image_url: lightBulb,
+            manufacturer_id: Math.floor(Math.random() * 999),
+            price: Number.parseFloat((Math.random() * 100).toFixed(2)),
+            weight_grams: Math.floor(Math.random() * 1000),
+            sold_count: Math.floor(Math.random() * 999),
+            date_available: new Date(),
+            date_added: new Date(),
+            date_modified: new Date(),
+          }
+          return p
+        }
+        throw e
       }
-      return p
     },
     {
       name: `resource:products:${params.id}`,

@@ -48,8 +48,8 @@ export const [
   (/* source, { value, refetching } */) => {
     const cred = loginCred()
     if (cred == null) {
-      const item = localStorage.getItem(PERSISTED_TOKEN_KEY)
-      return item != null ? (JSON.parse(item) as AccTok) : null
+      const itemStr = localStorage.getItem(PERSISTED_TOKEN_KEY)
+      return itemStr != null ? (JSON.parse(itemStr) as AccTok) : null
     }
     return users_login(cred)
   },

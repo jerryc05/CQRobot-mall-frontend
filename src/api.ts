@@ -153,5 +153,5 @@ export const product_detail = (id: Product['id']) =>
       ...x.data,
       date_added: new Date(`${x.data.date_added}+08:00`),
       date_modified: new Date(`${x.data.date_modified}+08:00`),
-    }
+    } as Product
   })
