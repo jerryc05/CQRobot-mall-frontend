@@ -1,6 +1,6 @@
-import { users_login, users_me, users_refresh_token__raw_ } from '@/api'
+import { users_login, users_me } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { createEffect, createResource, createSignal } from 'solid-js'
 import { isDev } from 'solid-js/web'
 
@@ -52,7 +52,6 @@ export const [loginCred, setLoginCred] =
 
 const TOKEN_KEY = 'loginToken'
 const PERSISTED_TOKEN_KEY = `persisted:${TOKEN_KEY}`
-// {"access_token":"token","token_type":"bearer"}
 export const [
   loginToken,
   { mutate: setLoginToken, refetch: loginUsingCredAndSetToken },
@@ -60,28 +59,7 @@ export const [
   async (_source, { value /* , refetching */ }) => {
     const cred = loginCred()
     if (cred != null) return await users_login(cred)
-
-    let tok = value ?? null
-    if (tok != null) {
-      // test if login token is still valid
-      try {
-        tok = await users_refresh_token__raw_({
-          headers: { Authorization: `${tok.token_type} ${tok.access_token}` },
-        })
-      } catch (e) {
-        if (
-          e instanceof AxiosError &&
-          e.response != null &&
-          e.response.status < 500
-        ) {
-          tok = null
-          console.error('Error @ loginToken fetcher:', e)
-          // don't throw here, just a test
-        }
-      }
-    }
-
-    return tok
+    return value ?? null
   },
   {
     name: `resource:${TOKEN_KEY}`,

@@ -5,11 +5,9 @@ import {
   setLoginToken,
 } from '@/utils'
 import axios, { AxiosError } from 'axios'
-import { isDev } from 'solid-js/web'
 
 export function ensureHasToken() {
   if (loginToken() == null) {
-    if (isDev) console.error('Login token missing')
     throw new LoginTokenMissingError()
   }
 }
@@ -29,6 +27,7 @@ export const users_login = (body: { email: string; password: string }) =>
   })
 
 export async function users_me(refreshTokIfFailed = true) {
+  console.log('users_me loginToken', loginToken())
   ensureHasToken()
   try {
     return await axios
@@ -61,16 +60,17 @@ export async function users_logout() {
   setLoginToken(undefined)
 }
 
-export const users_refresh_token__raw_ = (
-  axiosConfig?: Parameters<typeof axios.post>[1]
-) =>
-  axios
-    .post<LoginTok>('/api/users/refresh_token', axiosConfig)
-    .then(x => x.data)
+// export const users_refresh_token__raw_ = (
+//   axiosConfig?: Parameters<typeof axios.post>[2]
+// ) =>
+//   axios
+//     .post<LoginTok>('/api/users/refresh_token', undefined, axiosConfig)
+//     .then(x => x.data)
 
 export async function users_refresh_token() {
   ensureHasToken()
-  const loginTok = await users_refresh_token__raw_()
+  const loginTok = await //users_refresh_token__raw_()
+  axios.post<LoginTok>('/api/users/refresh_token').then(x => x.data)
   setLoginToken(loginTok)
   return loginTok
 }
