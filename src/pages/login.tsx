@@ -2,10 +2,10 @@ import { users_reset_password } from '@/api'
 import {
   homeUrl,
   loginCred,
+  loginToken,
   loginUsingCredAndSetToken,
   refetchMe,
   setLoginCred,
-  token,
 } from '@/utils'
 import { useNavigate } from '@solidjs/router'
 import { Loader2 } from 'lucide-solid'
@@ -115,7 +115,11 @@ export default function Login() {
           }
           class={`${submitBtnHeight} w-full px-4 py-2 rounded-lg bg-blue-700 disabled:bg-gray-400 text-white`}
         >
-          {token.loading ? <Loader2 class='w-full animate-spin' /> : 'Submit'}
+          {loginToken.loading ? (
+            <Loader2 class='w-full animate-spin' />
+          ) : (
+            'Submit'
+          )}
         </button>
       </form>
     </div>

@@ -1,7 +1,8 @@
-import { users_login, users_me } from '@/api'
+import { users_login, users_me, users_refresh_token__raw_ } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { createEffect, createResource, createSignal } from 'solid-js'
+import { isDev } from 'solid-js/web'
 
 export type UrlWithName = {
   name: string
@@ -36,7 +37,6 @@ type AccTok = {
 }
 export type LoginTok = AccTok
 
-
 export class LoginTokenMissingError extends Error {
   constructor() {
     super('Login token missing')
@@ -52,17 +52,36 @@ export const [loginCred, setLoginCred] =
 
 const TOKEN_KEY = 'loginToken'
 const PERSISTED_TOKEN_KEY = `persisted:${TOKEN_KEY}`
+// {"access_token":"token","token_type":"bearer"}
 export const [
-  token,
+  loginToken,
   { mutate: setLoginToken, refetch: loginUsingCredAndSetToken },
-] = createResource(
-  (/* source, { value, refetching } */) => {
+] = createResource<Awaited<ReturnType<typeof users_login>> | null>(
+  async (_source, { value /* , refetching */ }) => {
     const cred = loginCred()
-    if (cred == null) {
-      const itemStr = localStorage.getItem(PERSISTED_TOKEN_KEY)
-      return itemStr != null ? (JSON.parse(itemStr) as LoginTok) : null
+    if (cred != null) return await users_login(cred)
+
+    let tok = value ?? null
+    if (tok != null) {
+      // test if login token is still valid
+      try {
+        tok = await users_refresh_token__raw_({
+          headers: { Authorization: `${tok.token_type} ${tok.access_token}` },
+        })
+      } catch (e) {
+        if (
+          e instanceof AxiosError &&
+          e.response != null &&
+          e.response.status < 500
+        ) {
+          tok = null
+          console.error('Error @ loginToken fetcher:', e)
+          // don't throw here, just a test
+        }
+      }
     }
-    return users_login(cred)
+
+    return tok
   },
   {
     name: `resource:${TOKEN_KEY}`,
@@ -74,7 +93,8 @@ export const [
 )
 
 createEffect(() => {
-  const tok = token()
+  const tok = loginToken()
+  if (isDev) console.log('loginToken updated:', tok)
   axios.defaults.headers.common.Authorization =
     tok != null ? `${tok.token_type} ${tok.access_token}` : undefined
 })
@@ -83,7 +103,7 @@ createEffect(() => {
 //
 //
 
-export const [me, { refetch: refetchMe }] = createResource<
+export const [me, { mutate: mutateMe, refetch: refetchMe }] = createResource<
   Awaited<ReturnType<typeof users_me>>
 >((/* source, { value, refetching } */) => users_me(), {
   name: 'resource:me',
