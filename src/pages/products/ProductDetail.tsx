@@ -2,41 +2,11 @@ import { product_detail } from '@/api'
 import { useParams } from '@solidjs/router'
 import { Heart, Loader2, ShoppingCart } from 'lucide-solid'
 import { Match, Switch, createResource } from 'solid-js'
-import { isDev } from 'solid-js/web'
-import lightBulb from '/Simple_light_bulb_graphic.png'
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>()
   const [data /* , { mutate, refetch } */] = createResource(
-    async () => {
-      const id = Number.parseInt(params.id)
-      try {
-        const x = await product_detail(id)
-        return x
-      } catch (e) {
-        // todo: remove dummy data
-        if (isDev) {
-          const p: Awaited<ReturnType<typeof product_detail>> = {
-            id: Number.parseInt(params.id),
-            model: `model-of-${id}`,
-            sku: `sku-of-${id}`,
-            mpn: `mpn-of-${id}`,
-            quantity: Math.floor(Math.random() * 999),
-            stock_status_id: Math.floor(Math.random() * 999),
-            image_url: lightBulb,
-            manufacturer_id: Math.floor(Math.random() * 999),
-            price: Number.parseFloat((Math.random() * 100).toFixed(2)),
-            weight_grams: Math.floor(Math.random() * 1000),
-            sold_count: Math.floor(Math.random() * 999),
-            date_available: new Date(),
-            date_added: new Date(),
-            date_modified: new Date(),
-          }
-          return p
-        }
-        throw e
-      }
-    },
+    () => product_detail(Number.parseInt(params.id)),
     {
       name: `resource:products:${params.id}`,
     }
@@ -51,19 +21,35 @@ export default function ProductPage() {
       <Match when={1}>
         <div class='mx-5'>
           <div class='my-5 flex items-center whitespace-pre'>
-            <div class='text-4xl'>{data()?.model} · </div>
-            <div>sku: {data()?.sku}</div>
-            <div> · mpn: {data()?.mpn}</div>
+            <div class='text-4xl'>
+              <span data-test='model'>{data()?.model}</span> ·{' '}
+            </div>
+            <div>
+              sku: <span data-test='sku'>{data()?.sku}</span>
+            </div>
+            <div>
+              {' '}
+              · mpn: <span data-test='mpn'>{data()?.mpn}</span>
+            </div>
           </div>
           <div class='flex'>
             <img
               class='basis-1/2 max-h-[50vh] object-contain'
+              data-test='image_el'
               src={data()?.image_url}
               alt='Product Img'
             />
             <div class='basis-1/2 flex flex-col gap-y-2'>
-              <div class='font-bold text-4xl'>${data()?.price}</div>
-              <div class='font-medium '>{data()?.weight_grams} gram(s)</div>
+              <div class='font-bold text-4xl'>
+                $<span data-test='price'>{data()?.price}</span>
+              </div>
+              <div class='font-medium '>
+                {' '}
+                <span data-test='weight_grams'>
+                  {data()?.weight_grams}
+                </span>{' '}
+                gram(s)
+              </div>
               <div class='flex items-center gap-x-2'>
                 <input
                   type='number'
@@ -78,7 +64,8 @@ export default function ProductPage() {
                 </button>
               </div>
               <div>
-                {data()?.sold_count} sold, {data()?.quantity} left
+                <span data-test='sold_count'>{data()?.sold_count}</span> sold,{' '}
+                <span data-test='quantity'>{data()?.quantity}</span> left
               </div>
             </div>
           </div>

@@ -42,7 +42,7 @@ before(() => {
   })
 })
 
-describe('login api', () => {
+describe('login/logout api', () => {
   it('persist login/logout state after refresh', () => {
     cy.visit('/login')
     getBySel('email').type(me.email)
