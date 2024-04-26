@@ -67,6 +67,7 @@ export const [
       makePersisted(createSignal(x), {
         name: PERSISTED_TOKEN_KEY,
       }),
+    initialValue: null,
   }
 )
 

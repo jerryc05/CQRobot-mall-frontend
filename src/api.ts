@@ -27,7 +27,6 @@ export const users_login = (body: { email: string; password: string }) =>
   })
 
 export async function users_me(refreshTokIfFailed = true) {
-  console.log('users_me loginToken', loginToken())
   ensureHasToken()
   try {
     return await axios
@@ -57,7 +56,7 @@ export const users_reset_password = (body: {
 export async function users_logout() {
   ensureHasToken()
   await axios.post('/api/users/logout')
-  setLoginToken(undefined)
+  setLoginToken(null)
 }
 
 // export const users_refresh_token__raw_ = (
@@ -99,25 +98,32 @@ function genCrud<
   let api = api_
   while (api.endsWith('/')) api = api.slice(0, -1)
   return {
-    list: () => {
+    list: async () => {
       if (requiresAuth) ensureHasToken()
-      return axios.get<T[IdKey][]>(api).then(x => x.data)
+      const x = await axios.get<T[IdKey][]>(api)
+      return x.data
     },
-    create: (body: Omit<T, IdKey>) => {
+    create: async (body: Omit<T, IdKey>) => {
       if (requiresAuth) ensureHasToken()
-      return axios.post<{ [K in IdKey]: T[IdKey] }>(api, body).then(x => x.data)
+      const x = await axios.post<{
+        [K in IdKey]: T[IdKey]
+      }>(api, body)
+      return x.data
     },
-    read: (id: T[IdKey]) => {
+    read: async (id: T[IdKey]) => {
       if (requiresAuth) ensureHasToken()
-      return axios.get<T>(`${api}/${id}`).then(x => x.data)
+      const x = await axios.get<T>(`${api}/${id}`)
+      return x.data
     },
-    update: ({ id, body }: { id: T[IdKey]; body: Partial<T> }) => {
+    update: async ({ id, body }: { id: T[IdKey]; body: Partial<T> }) => {
       if (requiresAuth) ensureHasToken()
-      return axios.patch<void>(`${api}/${id}`, body).then(x => x.data)
+      const x = await axios.patch<void>(`${api}/${id}`, body)
+      return x.data
     },
-    delete: (id: T[IdKey]) => {
+    delete: async (id: T[IdKey]) => {
       if (requiresAuth) ensureHasToken()
-      return axios.delete<void>(`${api}/${id}`).then(x => x.data)
+      const x = await axios.delete<void>(`${api}/${id}`)
+      return x.data
     },
   }
 }

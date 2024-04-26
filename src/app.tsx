@@ -57,7 +57,7 @@ export function App() {
 
 function SearchAndCart() {
   return (
-    <div class='flex justify-end items-center gap-x-3'>
+    <div class='flex justify-end items-center'>
       <div class='h-10 flex items-center gap-x-1'>
         <input
           type='search'

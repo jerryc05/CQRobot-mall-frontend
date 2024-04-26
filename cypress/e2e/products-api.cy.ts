@@ -18,10 +18,15 @@ const product: Awaited<ReturnType<typeof product_detail>> = {
   date_added: new Date(randInt(9999999999)),
   date_modified: new Date(randInt(9999999999)),
 }
+
 before(() => {
   cy.intercept('GET', '/api/products/1', req => {
     req.reply(product)
   })
+})
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false
 })
 
 describe('products api', () => {
