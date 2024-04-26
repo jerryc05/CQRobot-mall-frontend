@@ -19,7 +19,14 @@ export function Header() {
   const headerLeftInfo: UrlWithName[] = [
     { name: 'My Account', url: homeUrl },
     { name: 'My Cart', url: checkoutUrl },
-    { name: `Checkout (${currency()})`, url: checkoutUrl },
+    {
+      name: (
+        <>
+          Checkout (<span data-test='currency-in-checkout'>{currency()}</span>)
+        </>
+      ),
+      url: checkoutUrl,
+    },
   ]
   return (
     <header class='px-4 flex justify-between items-center bg-gray-200 text-gray-900'>

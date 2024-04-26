@@ -1,11 +1,16 @@
 import { users_login, users_me } from '@/api'
 import { makePersisted } from '@solid-primitives/storage'
 import axios from 'axios'
-import { createEffect, createResource, createSignal } from 'solid-js'
+import {
+  type JSXElement,
+  createEffect,
+  createResource,
+  createSignal,
+} from 'solid-js'
 import { isDev } from 'solid-js/web'
 
 export type UrlWithName = {
-  name: string
+  name: JSXElement
   url: string
 }
 
