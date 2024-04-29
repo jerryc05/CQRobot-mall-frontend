@@ -9,3 +9,5 @@ opencart-html*
 
 *.sql
 *.xz
+
+__nosync*

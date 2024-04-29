@@ -187,7 +187,7 @@ export type Product = {
 }
 
 export const product_detail = (id: Product['id']) =>
-  axios.get<Product>(`/api/products/${id}`).then(x => {
+  axios.get<Product>(`/api/products/id/${id}`).then(x => {
     if ((x.data.sold_count as any) == null)
       // todo: del this after test
       throw Error(`Product.sold_count not found in product id ${x.data.id}`)
@@ -197,3 +197,7 @@ export const product_detail = (id: Product['id']) =>
       date_modified: new Date(`${x.data.date_modified}+08:00`),
     } as Product
   })
+
+
+export const product_popular = () =>
+  axios.get<Product[]>('/api/products/popular').then(x => x.data)
