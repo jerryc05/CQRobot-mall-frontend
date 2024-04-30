@@ -200,4 +200,4 @@ export const product_detail = (id: Product['id']) =>
 
 
 export const product_popular = () =>
-  axios.get<Product[]>('/api/products/popular').then(x => x.data)
+  axios.get<Product['id'][]>('/api/products/popular').then(x => x.data)
