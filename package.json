@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "lintfix": "biome lint . --apply-unsafe",
     "cy:open": "cypress open",
-    "cy:run": "cypress run --browser chrome"
+    "cy:run": "cypress run --browser chrome --browser chrome:beta"
   },
   "dependencies": {
     "@solid-primitives/storage": "^3.5.0",

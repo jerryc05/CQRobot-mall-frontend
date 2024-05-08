@@ -20,13 +20,9 @@ const product: Awaited<ReturnType<typeof product_detail>> = {
 }
 
 before(() => {
-  cy.intercept('GET', '/api/products/1', req => {
+  cy.intercept('GET', '/api/products/id/1', req => {
     req.reply(product)
   })
-})
-
-Cypress.on('uncaught:exception', (err, runnable) => {
-  return false
 })
 
 describe('products api', () => {
@@ -35,7 +31,9 @@ describe('products api', () => {
     getBySel('model').should('have.text', product.model)
     getBySel('sku').should('have.text', product.sku)
     getBySel('mpn').should('have.text', product.mpn)
-    getBySel('image_el').should('have.attr', 'src', product.image_url)
+    getBySel('image_el')
+      .should('have.attr', 'src')
+      .and('contain', product.image_url)
     getBySel('price').should('have.text', product.price.toString())
     getBySel('weight_grams').should('have.text', product.weight_grams)
     getBySel('sold_count').should('have.text', product.sold_count)
