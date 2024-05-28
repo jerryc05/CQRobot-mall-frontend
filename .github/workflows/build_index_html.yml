@@ -42,3 +42,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.xz
+          tag_name: ${{ github.sha }}
