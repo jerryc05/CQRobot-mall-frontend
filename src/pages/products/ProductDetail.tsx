@@ -36,7 +36,7 @@ export default function ProductPage() {
             <img
               class='basis-1/2 max-h-[50vh] object-contain'
               data-test='image_el'
-              src={`/cache/${data()?.image_url}`}
+              src={data()?.image_url}
               alt='Product Img'
             />
             <div class='basis-1/2 flex flex-col gap-y-2'>
