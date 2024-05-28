@@ -36,10 +36,10 @@ jobs:
       - run: pnpm i
 
       - name: Build index.html
-        run: pnpm run dist2
+        run: pnpm run dist
 
       - name: Deploy to GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.xz
+          files: dist/*.zip
           tag_name: packaged_index.html
