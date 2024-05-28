@@ -42,4 +42,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.zip
-          tag_name: packaged_index.html
+          tag_name: zipped_dist
