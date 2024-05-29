@@ -117,34 +117,26 @@ function genCrud<
 >(api_: string, requiresAuth = false) {
   let api = api_
   while (api.endsWith('/')) api = api.slice(0, -1)
+  const apis = {
+    list: () => axios.get<T[IdKey][]>(api).then(x => x.data),
+    create: (body: Omit<T, IdKey>) =>
+      axios
+        .post<{
+          [K in IdKey]: T[IdKey]
+        }>(api, body)
+        .then(x => x.data),
+    read: (id: T[IdKey]) => axios.get<T>(`${api}/${id}`).then(x => x.data),
+    update: ({ id, body }: { id: T[IdKey]; body: Partial<T> }) =>
+      axios.patch<void>(`${api}/${id}`, body).then(x => x.data),
+    delete: (id: T[IdKey]) =>
+      axios.delete<void>(`${api}/${id}`).then(x => x.data),
+  }
   return {
-    list: async () => {
-      if (requiresAuth) ensureHasToken()
-      const x = await axios.get<T[IdKey][]>(api)
-      return x.data
-    },
-    create: async (body: Omit<T, IdKey>) => {
-      if (requiresAuth) ensureHasToken()
-      const x = await axios.post<{
-        [K in IdKey]: T[IdKey]
-      }>(api, body)
-      return x.data
-    },
-    read: async (id: T[IdKey]) => {
-      if (requiresAuth) ensureHasToken()
-      const x = await axios.get<T>(`${api}/${id}`)
-      return x.data
-    },
-    update: async ({ id, body }: { id: T[IdKey]; body: Partial<T> }) => {
-      if (requiresAuth) ensureHasToken()
-      const x = await axios.patch<void>(`${api}/${id}`, body)
-      return x.data
-    },
-    delete: async (id: T[IdKey]) => {
-      if (requiresAuth) ensureHasToken()
-      const x = await axios.delete<void>(`${api}/${id}`)
-      return x.data
-    },
+    list: requiresAuth ? refreshOn401Wrapper(apis.list) : apis.list,
+    create: requiresAuth ? refreshOn401Wrapper(apis.create) : apis.create,
+    read: requiresAuth ? refreshOn401Wrapper(apis.read) : apis.read,
+    update: requiresAuth ? refreshOn401Wrapper(apis.update) : apis.update,
+    delete: requiresAuth ? refreshOn401Wrapper(apis.delete) : apis.delete,
   }
 }
 
