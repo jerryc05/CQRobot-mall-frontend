@@ -209,6 +209,8 @@ export const product_detail = (id: Product['id']) =>
       date_modified: new Date(`${x.data.date_modified}+08:00`),
     } as Product
   })
+export const product_desc = (id: Product['id']) =>
+  axios.get<string>(`/api/products_desc/id/${id}`).then(x => x.data)
 
 export const product_popular = () =>
   axios.get<Product['id'][]>('/api/products/popular').then(x => x.data)
