@@ -26,32 +26,32 @@ export const users_login = (body: { email: string; password: string }) =>
     return x.data
   })
 
-export async function users_me(refreshTokIfFailed = true) {
-  ensureHasToken()
-  try {
-    return await axios
-      .get<{
-        email: string
-        first_name: string
-        last_name: string
-        phone_number: string
-      }>('/api/users/me')
-      .then(x => x.data)
-  } catch (err) {
-    if (refreshTokIfFailed && (await refreshOn401(err)))
-      return await users_me(false)
-    throw Error('Not logged in')
-  }
-}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-export const users_reset_password = (body: {
-  email: string
-  old_password: string
-  new_password: string
-}) => {
-  ensureHasToken()
-  return axios.post('/api/users/reset_password', body)
-}
+export const users_me = refreshOn401Wrapper(() =>
+  axios
+    .get<{
+      email: string
+      first_name: string
+      last_name: string
+      phone_number: string
+    }>('/api/users/me')
+    .then(x => x.data)
+)
+
+export const users_reset_password = refreshOn401Wrapper(
+  (body: { email: string; old_password: string; new_password: string }) =>
+    axios.post('/api/users/reset_password', body)
+)
 
 export async function users_logout() {
   ensureHasToken()
@@ -59,12 +59,16 @@ export async function users_logout() {
   setLoginToken(null)
 }
 
-// export const users_refresh_token__raw_ = (
-//   axiosConfig?: Parameters<typeof axios.post>[2]
-// ) =>
-//   axios
-//     .post<LoginTok>('/api/users/refresh_token', undefined, axiosConfig)
-//     .then(x => x.data)
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 export async function users_refresh_token() {
   ensureHasToken()
@@ -74,14 +78,30 @@ export async function users_refresh_token() {
   return loginTok
 }
 
-async function refreshOn401(err: any) {
-  if (err instanceof AxiosError && err.response?.status === 401) {
-    await users_refresh_token()
-    return true
+function refreshOn401Wrapper<T, U>(
+  fn: (...args: U[]) => Promise<T>,
+  refreshTokIf401 = true
+) {
+  return async (...args: U[]) => {
+    ensureHasToken()
+    try {
+      return await fn()
+    } catch (err) {
+      const is401 = err instanceof AxiosError && err.response?.status === 401
+      if (is401 && refreshTokIf401) {
+        await users_refresh_token()
+        return await refreshOn401Wrapper(fn, false)
+      }
+      throw err
+    }
   }
-  return false
 }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -197,7 +217,6 @@ export const product_detail = (id: Product['id']) =>
       date_modified: new Date(`${x.data.date_modified}+08:00`),
     } as Product
   })
-
 
 export const product_popular = () =>
   axios.get<Product['id'][]>('/api/products/popular').then(x => x.data)
