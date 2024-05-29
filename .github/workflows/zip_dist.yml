@@ -38,8 +38,7 @@ jobs:
 
       - run: pnpm i
 
-      - name: Build index.html
-        run: pnpm run dist
+      - run: pnpm run dist && ls -l dist
 
       - name: Deploy to GitHub release
         uses: softprops/action-gh-release@v2

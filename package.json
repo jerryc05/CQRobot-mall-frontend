@@ -3,7 +3,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "dist": "vite build && cd dist && zip -9 dist-$(date +%Y%m%d_%H%M%S).zip ./*",
     "dist2": "vite build && cd dist && sh -c \"xz -9 -T 0 -c index.html >\\\"index.html.$(date +%Y%m%d_%H%M%S).xz\\\"\"",
     "serve": "vite preview",
