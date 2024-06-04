@@ -6,6 +6,7 @@ dist
 *.zip
 opencart-html*
 127.0.0.1*
+/catalog
 
 *.sql
 *.xz
