@@ -1,15 +1,34 @@
-import { Index } from 'solid-js'
+import { home_carousel } from '@/api'
+import { For, Index, createEffect, createSignal } from 'solid-js'
 import { BodyRightContent } from './HomeRightContent'
 
 export default function Home() {
   return (
     <div class='mx-20 my-2'>
-      <img class='w-full h-56 my-1 bg-gray-200' alt='carousel' />
+      <Carousel />
       <div class='flex'>
         <BodyLeftPanel />
         <BodyRightContent />
       </div>
     </div>
+  )
+}
+
+function Carousel() {
+  const [imgs, setImgs] = createSignal<string[]>()
+  createEffect(() => {
+    home_carousel().then(setImgs)
+  })
+  return (
+    <For each={imgs()}>
+      {(x, i) => (
+        <img
+          class={`w-full h-56 my-1 bg-gray-200 ${i() === 0 ? '' : 'hidden'}`}
+          src={x}
+          alt={`carousel-${i()}`}
+        />
+      )}
+    </For>
   )
 }
 

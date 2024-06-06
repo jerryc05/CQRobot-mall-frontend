@@ -80,17 +80,17 @@ export async function users_refresh_token() {
 
 function refreshOn401Wrapper<T, U>(
   fn: (...args: U[]) => Promise<T>,
-  refreshTokIf401 = true
-) {
+  refreshTokOn401 = true
+): (...args: U[]) => Promise<T> {
   return async (...args: U[]) => {
     ensureHasToken()
     try {
-      return await fn()
+      return fn()
     } catch (err) {
       const is401 = err instanceof AxiosError && err.response?.status === 401
-      if (is401 && refreshTokIf401) {
+      if (is401 && refreshTokOn401) {
         await users_refresh_token()
-        return await refreshOn401Wrapper(fn, false)
+        return refreshOn401Wrapper(fn, false)
       }
       throw err
     }
@@ -214,3 +214,13 @@ export const product_desc = (id: Product['id']) =>
 
 export const product_popular = () =>
   axios.get<Product['id'][]>('/api/products/popular').then(x => x.data)
+
+//
+//
+//
+//
+//
+
+export const home_logo = () => axios.get<string>('/api/logo').then(x => x.data)
+export const home_carousel = () =>
+  axios.get<string[]>('/api/carousel').then(x => x.data)

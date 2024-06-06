@@ -1,6 +1,6 @@
 import { Route, Router } from '@solidjs/router'
 import { Search } from 'lucide-solid'
-import { Index } from 'solid-js'
+import { Index, createEffect, createSignal } from 'solid-js'
 
 import Page404 from '@/errors/404'
 import Account from '@/pages/account/account'
@@ -22,6 +22,7 @@ import {
   productIdUrl,
   registerUrl,
 } from '@/utils'
+import { home_logo } from './api'
 
 export function App() {
   return (
@@ -74,9 +75,13 @@ function SearchAndCart() {
 }
 
 function NavBar() {
+  const [logoUrl, setLogoUrl] = createSignal<string>()
+  createEffect(() => {
+    home_logo().then(setLogoUrl)
+  })
   return (
     <nav class='flex items-center'>
-      <img class='w-1/3 h-20 bg-gray-300' src='' alt='logo' />
+      <img class='w-1/3 h-20 bg-gray-300' src={logoUrl()} alt='logo' />
       <div class='flex'>
         <Index
           each={
