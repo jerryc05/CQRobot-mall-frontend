@@ -1,5 +1,7 @@
 import { home_carousel } from '@/api'
 import { For, Index, createEffect, createSignal } from 'solid-js'
+import { Slider } from 'solid-slider'
+import { autoplay } from 'solid-slider/dist/autoplay/autoplay'
 import { BodyRightContent } from './HomeRightContent'
 
 export default function Home() {
@@ -20,15 +22,17 @@ function Carousel() {
     home_carousel().then(setImgs)
   })
   return (
-    <For each={imgs()}>
-      {(x, i) => (
-        <img
-          class={`w-full h-56 my-1 bg-gray-200 ${i() === 0 ? '' : 'hidden'}`}
-          src={x}
-          alt={`carousel-${i()}`}
-        />
-      )}
-    </For>
+    <Slider options={{ loop: true }} plugins={[autoplay(1500, {})]}>
+      <For each={imgs()}>
+        {(x, i) => (
+          <img
+            class={`w-full h-56 my-1 bg-gray-200 ${i() === 0 ? '' : 'hidden'}`}
+            src={x}
+            alt={`carousel-${i()}`}
+          />
+        )}
+      </For>
+    </Slider>
   )
 }
 
