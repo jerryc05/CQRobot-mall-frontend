@@ -72,8 +72,9 @@ export async function users_logout() {
 
 export async function users_refresh_token() {
   ensureHasToken()
-  const loginTok = await //users_refresh_token__raw_()
-  axios.post<LoginTok>('/api/users/refresh_token').then(x => x.data)
+  const loginTok = await axios
+    .post<LoginTok>('/api/users/refresh_token')
+    .then(x => x.data)
   setLoginToken(loginTok)
   return loginTok
 }
@@ -85,12 +86,12 @@ function refreshOn401Wrapper<T, U>(
   return async (...args: U[]) => {
     ensureHasToken()
     try {
-      return fn()
+      return fn(...args)
     } catch (err) {
       const is401 = err instanceof AxiosError && err.response?.status === 401
       if (is401 && refreshTokOn401) {
         await users_refresh_token()
-        return refreshOn401Wrapper(fn, false)
+        return await refreshOn401Wrapper(fn, false)(...args)
       }
       throw err
     }
