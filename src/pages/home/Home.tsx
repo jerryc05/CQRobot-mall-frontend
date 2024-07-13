@@ -1,6 +1,13 @@
-import { home_carousel } from '@/api'
+import { home_carousel, home_category_tree } from '@/api'
+import { makePersisted } from '@solid-primitives/storage'
 import { Carousel } from 'solid-bootstrap'
-import { For, Index, createEffect, createSignal } from 'solid-js'
+import {
+  For,
+  Index,
+  createEffect,
+  createResource,
+  createSignal,
+} from 'solid-js'
 import { BodyRightContent } from './HomeRightContent'
 
 export default function Home() {
@@ -49,25 +56,59 @@ function CarouselComp() {
 }
 
 function BodyLeftPanel() {
-  const elemClassName =
-    'w-28 px-2 relative hover:bg-gray-200 [&>div]:hover:flex'
+  const KEY = 'homeCategory'
+  const PERSISTED_KEY = `persisted:${KEY}`
+  const [categories] = createResource<
+    Awaited<ReturnType<typeof home_category_tree>> | undefined
+  >(
+    async (_source, { value /* , refetching */ }) => {
+      try {
+        return await home_category_tree()
+      } catch (e) {
+        console.error(e)
+      }
+      return value
+    },
+    {
+      name: `resource:${KEY}`,
+      storage: x =>
+        makePersisted(createSignal(x), {
+          name: PERSISTED_KEY,
+        }),
+    }
+  )
+
   return (
     <div class='basis-14'>
       <div class='bg-gray-200'>Products</div>
       <div>
-        <Index each={['1', '2', '1', '2', '1', '2', '1', '2']}>
-          {x => (
-            <div class={elemClassName}>
-              {x()}
-              {/* TODO: change to recursive call */}
-              <div class='flex-col absolute top-0 left-full hidden'>
-                <Index each={['3', '4', '3', '4', '3', '4', '3', '4']}>
-                  {x => <div class={elemClassName}>{x()}</div>}
-                </Index>
-              </div>
-            </div>
-          )}
-        </Index>
+        <For each={categories()}>
+          {x => <RecursiveCategoryTree category={x} />}
+        </For>
+      </div>
+    </div>
+  )
+}
+
+function RecursiveCategoryTree(props: {
+  category: Awaited<ReturnType<typeof home_category_tree>>[0]
+}) {
+  const elemClassName =
+    'w-28 px-2 relative hover:bg-gray-200 [&>div]:hover:flex'
+  return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+    <div
+      class={elemClassName}
+      onClick={() => {
+        console.log(`${props.category.name} (id=${props.category.id})`)
+      }}
+    >
+      {props.category.name}
+      {/* TODO: change to recursive call */}
+      <div class='flex-col absolute top-0 left-full hidden'>
+        <For each={props.category.children}>
+          {x => <RecursiveCategoryTree category={x} />}
+        </For>
       </div>
     </div>
   )

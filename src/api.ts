@@ -225,3 +225,11 @@ export const product_popular = () =>
 export const home_logo = () => axios.get<string>('/api/logo').then(x => x.data)
 export const home_carousel = () =>
   axios.get<string[]>('/api/carousel').then(x => x.data)
+
+type CategoryEntry = {
+  id: number
+  name: string
+  children?: CategoryEntry[]
+}
+export const home_category_tree = () =>
+  axios.get<CategoryEntry[]>('/api/categories/tree').then(x => x.data)
